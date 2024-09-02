@@ -6,7 +6,8 @@ export const objectIds = {
     bankBooth: 2213,
     depositBox: 9398,
     shortCuts: {
-        stile: 12982
+        stile: 12982,
+        fenceNearKharidCows: 9300
     },
     ladders: {
         taverlyDungeonOverworld: 1759,
@@ -23,6 +24,7 @@ export const objectIds = {
     crate: 357,
     skeletonLayingFlat: 5358,
     skeletonLayingAgainstWall: 5359,
+    lumbridgeAxeInLogs: 5581,
     tree: {
         normal: [
             { default: 1276, stump: 1342 },

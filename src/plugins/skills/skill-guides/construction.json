@@ -1675,147 +1675,147 @@
         "item": "rs:oak_dungeon_door",
         "text": "Oak dungeon door",
         "level": 74
-      },      
+      },
       {
         "item": "rs:guard_dog",
         "text": "Guard dog",
         "level": 74
-      },      
+      },
       {
         "item": "rs:wooden_dungeon_treasure_crate",
         "text": "Wooden dungeon treasure crate",
         "level": 75
-      },      
+      },
       {
         "item": "rs:demon",
         "text": "Demon",
         "level": 75
-      },      
+      },
       {
         "item": "rs:steel_cage",
         "text": "Steel cage",
         "level": 75
-      },      
+      },
       {
         "item": "rs:man_trap",
         "text": "Man trap",
         "level": 76
-      },      
+      },
       {
         "item": "rs:oubliette_flame_pit",
         "text": "Oubliette flame pit",
         "level": 77
-      },      
+      },
       {
         "item": "rs:hobgoblin_guard",
         "text": "Hobgoblin guard",
         "level": 78
-      },      
+      },
       {
         "item": "rs:oak_dungeon_treasure_chest",
         "text": "Oak dungeon treasure chest",
         "level": 79
-      },      
+      },
       {
         "item": "rs:spiked_cage",
         "text": "Spiked cage",
         "level": 80
-      },      
+      },
       {
         "item": "rs:tangle_vine",
         "text": "Tangle vine",
         "level": 80
-      },      
+      },
       {
         "item": "rs:Kalphite soldier",
         "text": "Kalphite soldier",
         "level": 80
-      },      
+      },
       {
         "item": "rs:lesser_magic_cage",
         "text": "Lesser magic cage",
         "level": 82
-      },      
+      },
       {
         "item": "rs:baby_red_dragon",
         "text": "Baby red dragon",
         "level": 82
-      },      
+      },
       {
         "item": "rs:teak_dungeon_treasure_chest",
         "text": "Teak dungeon treasure chest",
         "level": 83
-      },      
+      },
       {
         "item": "rs:rocnar",
         "text": "Rocnar",
         "level": 83
-      },      
+      },
       {
         "item": "rs:steel_plated_oak_door",
         "text": "Steel plated oak door",
         "level": 84
-      },      
+      },
       {
         "item": "rs:marble_trap",
         "text": "Marble trap",
         "level": 84
-      },      
+      },
       {
         "item": "rs:tok-xil",
         "text": "Tok-Xil",
         "level": 85
-      },      
+      },
       {
         "item": "rs:bone_cage",
         "text": "Bone cage",
         "level": 85
-      },      
+      },
       {
         "item": "rs:huge_spider",
         "text": "Huge spider",
         "level": 86
-      },      
+      },
       {
         "item": "rs:mahogany_dungeon_treasure_chest",
         "text": "Mahogany dungeon treasure chest",
         "level": 87
-      },      
+      },
       {
         "item": "rs:teleport_trap",
         "text": "Teleport trap",
         "level": 88
-      },      
+      },
       {
         "item": "rs:greater_magic_cage",
         "text": "Greater magic cage",
         "level": 89
-      },      
+      },
       {
         "item": "rs:troll_guard",
         "text": "Troll guard",
         "level": 90
-      },      
+      },
       {
         "item": "rs:dagannoth",
         "text": "Dagannoth",
         "level": 90
-      },      
+      },
       {
         "item": "rs:magic_dungeon_treasure_chest",
         "text": "Magic dungeon treasure chest",
         "level": 91
-      },      
+      },
       {
         "item": "rs:marble_dungeon_door",
         "text": "Marble dungeon door",
         "level": 94
-      },      
+      },
       {
         "item": "rs:hellhound",
         "text": "Hellhound",
         "level": 94
-      },      
+      },
       {
         "item": "rs:steel_dragon",
         "text": "steel_dragon",
@@ -1873,107 +1873,107 @@
         "item": "rs:shuttered_chapel_window",
         "text": "Shuttered chapel window",
         "level": 49
-      },      
+      },
       {
         "item": "rs:teak_altar",
         "text": "Teak altar",
         "level": 50
-      },      
+      },
       {
         "item": "rs:steel_candlesticks",
         "text": "Steel candlesticks",
         "level": 53
-      },      
+      },
       {
         "item": "rs:cloth_covered_teak_altar",
         "text": "Cloth covered teak altar",
         "level": 56
-      },      
+      },
       {
         "item": "rs:gold_candlesticks",
         "text": "Gold candlesticks",
         "level": 57
-      },      
+      },
       {
         "item": "rs:chapel_bells",
         "text": "Chapel bells",
         "level": 58
-      },      
+      },
       {
         "item": "rs:icon_of_saradomin",
         "text": "Icon of Saradomin",
         "level": 59
-      },      
+      },
       {
         "item": "rs:Icon of Guthix",
         "text": "Icon of Guthix",
         "level": 59
-      },      
+      },
       {
         "item": "rs:icon_of_zamorak",
         "text": "Icon of Zamorak",
         "level": 59
-      },      
+      },
       {
         "item": "rs:cloth_covered_mahogany_altar",
         "text": "Cloth-covered mahogany altar",
         "level": 60
-      },      
+      },
       {
         "item": "rs:oak_incense_burners",
         "text": "Oak incense burners",
         "level": 61
-      },      
+      },
       {
         "item": "rs:limestone_altar",
         "text": "Limestone altar",
         "level": 64
-      },      
+      },
       {
         "item": "rs:mahogany_incense_burners",
         "text": "Mahogany incense burners",
         "level": 65
-      },      
+      },
       {
         "item": "rs:medium_chapel_statue",
         "text": "Medium_chapel_statue",
         "level": 69
-      },      
+      },
       {
         "item": "rs:chapel_organ",
         "text": "Chapel organ",
         "level": 69
-      },      
+      },
       {
         "item": "rs:decorative_chapel_window",
         "text": "Decorative chapel window",
         "level": 69
-      },      
+      },
       {
         "item": "rs:marble_incense_burner",
         "text": "Marble incense burner",
         "level": 69
-      },      
+      },
       {
         "item": "rs:marble_altar",
         "text": "Marble altar",
         "level": 70
-      },      
+      },
       {
         "item": "rs:icon_of_bob_the_cat",
         "text": "Icon of bob the Cat",
         "level": 71
-      },      
+      },
       {
         "item": "rs:gilded_marble_altar",
         "text": "Gilded marble altar",
         "level": 75
-      },      
+      },
       {
         "item": "rs:large_chapel_statue",
         "text": "Large chapel statue",
         "level": 89
-      },      
+      },
       {
         "item": "rs:stained_glass_chapel_window",
         "text": "Stained-glass chapel window",
@@ -2031,127 +2031,127 @@
         "item": "rs:teak_bell_pull",
         "text": "Teak bell pull",
         "level": 37
-      },      
+      },
       {
         "item": "rs:crystal_ball",
         "text": "Crystal ball",
         "level": 42
-      },      
+      },
       {
         "item": "rs:stash_units_medium",
         "text": "STASH units (medium)",
         "level": 42
-      },      
+      },
       {
         "item": "rs:teak_staircase",
         "text": "Teak staircase",
         "level": 48
-      },      
+      },
       {
         "item": "rs:teak_portal_frame",
         "text": "Teak portal frame",
         "level": 50
-      },      
+      },
       {
         "item": "rs:cup_of_tea",
         "text": "Mahogany Homes (adept)",
         "level": 50
-      },      
+      },
       {
         "item": "rs:elemental_sphere",
         "text": "Elemental sphere",
         "level": 54
-      },      
+      },
       {
         "item": "rs:stash_units_hard",
         "text": "STASH units (hard)",
         "level": 50
-      },      
+      },
       {
         "item": "rs:hallowed_sepulchre",
         "text": "Hallowed Sepulchre - Repair bridge",
         "level": 56
-      },      
+      },
       {
         "item": "rs:gilded_teak_bell_pull",
         "text": "Gilded teak bell pull",
         "level": 60
-      },      
+      },
       {
         "item": "rs:greater_teleport_focus",
         "text": "Greater teleport focus",
         "level": 65
-      },      
+      },
       {
         "item": "rs:mahogany_portal_frame",
         "text": "Mahogany portal frame",
         "level": 65
-      },      
+      },
       {
         "item": "rs:crystal_of_power",
         "text": "Crystal of power",
         "level": 66
-      },      
+      },
       {
         "item": "rs:limestone_spiral_staircase",
         "text": "Limestone spiral staircase",
         "level": 67
-      },      
+      },
       {
         "item": "rs:oak_oubliette_ladrer",
         "text": "Oak oubliette ladder",
         "level": 68
-      },      
+      },
       {
         "item": "rs:oak_lever",
         "text": "Oak lever",
         "level": 68
-      },      
+      },
       {
         "item": "rs:stash_units_elite",
         "text": "STASH units (Elite)",
         "level": 77
-      },      
+      },
       {
         "item": "rs:teak_oubliette_ladder",
         "text": "Teak oubliette ladder",
         "level": 78
-      },      
+      },
       {
         "item": "rs:teak_lever",
         "text": "Teak lever",
         "level": 78
-      },      
+      },
       {
         "item": "rs:marble_portal_frame",
         "text": "Marble portal frame",
         "level": 80
-      },      
+      },
       {
         "item": "rs:scrying_pool",
         "text": "Scrying pool",
         "level": 80
-      },      
+      },
       {
         "item": "rs:marble_staircase",
         "text": "Marble staircase",
         "level": 82
-      },      
+      },
       {
         "item": "rs:mahogany_oubliette_ladder",
         "text": "Mahogany oubliette ladder",
         "level": 88
-      },      
+      },
       {
         "item": "rs:mahogany_lever",
         "text": "Mahogany lever",
         "level": 88
-      },      
+      },
       {
         "item": "rs:stash_units_master",
         "text": "STASH units (master)",
         "level": 88
-      },      
+      },
       {
         "item": "rs:marble_spiral",
         "text": "Marble spiral",
@@ -2238,32 +2238,32 @@
         "item": "rs:hammer",
         "text": "Maximum rooms: 28",
         "level": 68
-      },      
+      },
       {
         "item": "rs:hammer",
         "text": "Maximum rooms: 29",
         "level": 74
-      },      
+      },
       {
         "item": "rs:hammer",
         "text": "Maximum rooms: 30",
         "level": 80
-      },      
+      },
       {
         "item": "rs:hammer",
         "text": "Maximum rooms: 31",
         "level": 86
-      },      
+      },
       {
         "item": "rs:hammer",
         "text": "Maximum rooms: 32",
         "level": 92
-      },      
+      },
       {
         "item": "rs:hammer",
         "text": "Maximum rooms: 33",
         "level": 96
-      },      
+      },
       {
         "item": "rs:hammer",
         "text": "Maximum rooms: 34",
