@@ -347,7 +347,7 @@ export abstract class Actor {
                 callbackResult: true,
                 shouldContinueLooping: true,
             };
-        }, null, { cacheOriginal: false, objectConfig: this as unknown as ObjectConfig })) // TODO: this needs to be better
+        }, null, null))
     }
 
     public moveSomewhere(): void {
