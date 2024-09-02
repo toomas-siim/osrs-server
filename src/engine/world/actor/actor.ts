@@ -13,6 +13,8 @@ import { Pathfinding } from './pathfinding';
 import { ActorMetadata } from './metadata';
 import { Task, TaskScheduler } from '@engine/task';
 import { logger } from '@runejs/common';
+import { ObjectConfig } from '@runejs/filestore';
+import { QueueableTask } from '@engine/action/pipe/task/queueable-task';
 
 
 export type ActorType = 'player' | 'npc';
@@ -333,13 +335,19 @@ export abstract class Actor {
     }
 
     public canMove(): boolean {
-        return !this.busy;
+        // In the future, there will undoubtedly be various reasons for the
+        // actor to not be able to move, but for now we are returning true.
+        return true;
     }
 
     public initiateRandomMovement(): void {
-        // this used to use `setInterval` but will need rewriting to be synced with ticks
-        // see https://github.com/runejs/server/issues/417
-        // this.randomMovementInterval = setInterval(() => this.moveSomewhere(), 1000);
+        this.enqueueBaseTask(new QueueableTask([], this, () => {
+            this.moveSomewhere();
+            return {
+                callbackResult: true,
+                shouldContinueLooping: true,
+            };
+        }, null, { cacheOriginal: false, objectConfig: this as unknown as ObjectConfig })) // TODO: this needs to be better
     }
 
     public moveSomewhere(): void {

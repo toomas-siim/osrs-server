@@ -212,7 +212,7 @@ export class Npc extends Actor {
         if(this.metadata.following) {
             return false;
         }
-        return this.updateFlags.faceActor === undefined && this.updateFlags.animation === undefined;
+        return this.updateFlags.faceActor === null && this.updateFlags.animation === null;
     }
 
     /**
