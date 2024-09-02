@@ -5,7 +5,6 @@
         "spawn_y": 3366,
         "movement_radius": 0,
         "face": "NORTH"
-        
     },
     {
         "npc": "rs:banker",
