@@ -44,7 +44,7 @@ export class QueueableTask<TAction extends ObjectAction> extends ActorTask <Play
      */
     private plugins: ObjectActionHook<TAction>[];
 
-    private data: ObjectActionData<TAction>;
+    private data: ObjectActionData<TAction> | null;
 
     /**
      * Optionally provided base task to enqueue on each tick. Can be `null`.
@@ -58,7 +58,7 @@ export class QueueableTask<TAction extends ObjectAction> extends ActorTask <Play
      */
     private callback: () => QueueableTaskEval;
 
-    constructor(plugins: ObjectActionHook<TAction>[], actor: Player | Actor, callback: () => QueueableTaskEval, task: Task | null, data: ObjectActionData<TAction>) {
+    constructor(plugins: ObjectActionHook<TAction>[], actor: Player | Actor, callback: () => QueueableTaskEval, task: Task | null, data: ObjectActionData<TAction> | null) {
         super(
             actor,
         );
