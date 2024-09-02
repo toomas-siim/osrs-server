@@ -9,6 +9,7 @@ export const itemIds = {
     bucket: 1925,
     bucketOfMilk: 1927,
     bucketOfWater: 1929,
+    banana: 1963,
     ashes: 592,
     tinderbox: 590,
     jug: 1935,
@@ -528,4 +529,10 @@ export const itemIds = {
             untrimmed: 9813,
         },
     },
+    staffs: {
+        air: 1381,
+        fire: 1387,
+        water: 1383,
+        earth: 1385
+    }
 };
