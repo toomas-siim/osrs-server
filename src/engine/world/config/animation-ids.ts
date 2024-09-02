@@ -1,4 +1,8 @@
 export const animationIds = {
+    reset: -1,
+    walk: 819,
+    idle: 808,
+    run: 824,
     milkCow: 2305,
     lightingFire: 733,
     homeTeleportDraw: 4847,
@@ -27,5 +31,7 @@ export const animationIds = {
         armBlock: 424
     },
     fadeOut: 3541,
-    fadeIn: 2115
+    fadeIn: 2115,
+    transparent: 15,
+    teleport: 714
 };
