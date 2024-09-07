@@ -3,6 +3,7 @@ import { serverConfig } from '@server/game/game-server';
 import { gfxIds } from '@engine/world/config';
 import { Actor } from './actor';
 import { Player } from './player';
+import { QueueableTask } from '@engine/action/pipe/task/queueable-task';
 
 export enum Skill {
     ATTACK,
@@ -238,9 +239,24 @@ export class Skills extends SkillShortcuts {
                     return;
                 }
 
-                this.actor.sendMessage(`Congratulations, you just advanced a ` +
-                    `${ achievementDetails.name.toLowerCase() } level.`);
-                this.showLevelUpDialogue(skill, finalLevel);
+                /**
+                 * Note: For skills like casting magic teleports, if the
+                 * level-up dialogue is shown too quickly, it interrupts the
+                 * task processing queue - the dialogue gets shown but the
+                 * teleport doesn't always finish.
+                 *
+                 * Queueing the level-up dialog 1 tick later will result in the
+                 * dialogue being shown after other events get processed on the
+                 * tick that the xp drop occurred.
+                 */
+                this.actor.enqueueBaseTask(new QueueableTask([], this.actor, () => {
+                    (this.actor as Player).sendMessage(`Congratulations, you just advanced a ` + `${ achievementDetails.name.toLowerCase() } level.`);
+                    this.showLevelUpDialogue(skill, finalLevel);
+                    return {
+                        callbackResult: false,
+                        shouldContinueLooping: false,
+                    }
+                } , null, null))
             }
         }
     }

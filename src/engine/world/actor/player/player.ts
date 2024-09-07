@@ -701,6 +701,9 @@ export class Player extends Actor {
     }
 
     public canMove(): boolean {
+        if (this.metadata?.castingStationarySpell) {
+            return false;
+        }
         return true;
     }
 

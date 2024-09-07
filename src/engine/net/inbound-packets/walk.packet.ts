@@ -9,6 +9,10 @@ const walkPacket = (player: Player, packet: PacketData) => {
         size -= 14;
     }
 
+    if (!player.canMove()) {
+        return;
+    }
+
     const totalSteps = Math.floor((size - 5) / 2);
 
     const firstY = buffer.get('short', 'u', 'le');

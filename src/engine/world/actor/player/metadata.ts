@@ -105,4 +105,13 @@ export type PlayerMetadata = {
      * The ID of the player's currently open skill guide.
      */
     activeSkillGuide: number;
+
+    /**
+     * Whether or not the player is casting a spell that immobilizes them.
+     * Different from the base Actor class's teleport metadata property. A use
+     * case for this is to prevent the player from teleporting multiple times
+     * before the teleport animation finishes (it takes a few ticks).
+     */
+    castingStationarySpell: boolean;
+
 };
