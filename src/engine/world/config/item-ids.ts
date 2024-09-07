@@ -78,32 +78,6 @@ export const itemIds = {
         rune_fire_u: 2540,
         rune_fire_l: 2541
     },
-    bones: {
-        normal: 526,
-        burnt: 528,
-        wolf: 2859,
-        bat: 530,
-        big: 532,
-        dagannoth: 6729,
-        babydragon: 534,
-        dragon: 536,
-        wyvern: 6812,
-        monkey: {
-            normal: 3183,
-            small_zombie: 3185,
-            large_zombie: 3186,
-            gorilla: 3181,
-            bearded_gorilla: 3182,
-            small_ninja: 3179,
-            medium_ninja: 3180,
-            skeleton_gorilla: 3187
-        },
-        jogre: 3152,
-        zogre: 4812,
-        fayrg: 4830,
-        raurg: 4832,
-        ourg: 4834
-    },
     essence: {
         pure: 7936,
         rune: 1436
