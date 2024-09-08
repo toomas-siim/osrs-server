@@ -98,6 +98,20 @@ export interface ItemMetadata {
         energy?: number | [number, number];
         special: boolean;
     };
+
+    /**
+     * If defined, the 'bury bones' plugin will assign experience according
+     * to this value.
+     */
+    prayerBuryXp?: number;
+
+    /**
+     * If the full URL is `"https://oldschool.runescape.wiki/w/Bat_bones"`
+     * then the value is `"Bat_bones"`.
+     *
+     * @example "Bat_bones"
+     */
+    wikiId?: string;
 }
 
 
