@@ -46,13 +46,17 @@ export class GatewayServer extends SocketServer {
                 host: serverConfig.updateServerHost,
                 port: serverConfig.updateServerPort
             });
+
             this.updateServerSocket.on('data', data => this.clientSocket.write(data));
+
             this.updateServerSocket.on('end', () => {
                 logger.info(`Update server connection closed.`);
             });
-            this.updateServerSocket.on('error', () => {
-                logger.error(`Update server error.`);
-            })
+
+            this.updateServerSocket.on('error', (error) => {
+                logger.error(`Update server error on host ${serverConfig.updateServerHost}, port ${serverConfig.updateServerPort}. Error: ${error.message}`);
+            });
+
             this.updateServerSocket.setNoDelay(true);
             this.updateServerSocket.setKeepAlive(true);
             this.updateServerSocket.setTimeout(30000);
