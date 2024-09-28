@@ -54,7 +54,8 @@ export class GatewayServer extends SocketServer {
             });
 
             this.updateServerSocket.on('error', (error) => {
-                logger.error(`Update server error on host ${serverConfig.updateServerHost}, port ${serverConfig.updateServerPort}. Error: ${error.message}`);
+                logger.error(`Update server error on host ${serverConfig.updateServerHost}, port ${serverConfig.updateServerPort}. Error: ${error.message}. Stack trace: ${error.stack}`);
+                logger.error(`Error details:`, error); // Log full error object for more details
             });
 
             this.updateServerSocket.setNoDelay(true);
