@@ -4,12 +4,12 @@ import core.game.interaction.DestinationFlag
 import core.game.interaction.MovementPulse
 import core.game.node.Node
 import core.game.node.item.Item
+import core.game.system.SystemLogger
 import core.game.world.map.zone.ZoneBorders
 import core.tools.Items
 import plugin.ai.general.ScriptAPI
 import plugin.ai.skillingbot.SkillingBotAssembler
 import core.game.node.entity.skill.Skills
-import core.game.system.SystemLogger;
 
 @PlayerCompatible
 @ScriptName("Varrock Coal Miner")
@@ -31,6 +31,7 @@ class VarrockCoalMiner() : Script() {
         when (state) {
 
             State.INIT -> {
+                SystemLogger.log("State: INIT")
                 overlay = scriptAPI.getOverlay()
                 overlay!!.init()
                 overlay!!.setTitle("Mining")
@@ -42,30 +43,39 @@ class VarrockCoalMiner() : Script() {
                 miningInProgress = false
 
                 if (mine.insideBorder(bot)) {
+                    SystemLogger.log("Bot is inside the mine. Switching to MINING state.")
                     state = State.MINING
                 } else {
+                    SystemLogger.log("Bot is not inside the mine. Switching to TO_MINE state.")
                     state = State.TO_MINE
                 }
             }
 
             State.MINING -> {
+                SystemLogger.log("State: MINING")
                 val currentInventoryCount = bot.inventory.getAmount(Items.COAL_453)
+                SystemLogger.log("Current inventory count: $currentInventoryCount, Last inventory count: $lastInventoryCount")
 
                 if (bot.inventory.freeSlots() == 0) {
+                    SystemLogger.log("Inventory full. Switching to TO_BANK state.")
                     state = State.TO_BANK
                 } else if (!mine.insideBorder(bot)) {
+                    SystemLogger.log("Bot is not inside the mine. Walking to mine.")
                     scriptAPI.walkTo(mine.randomLoc)
                 } else if (!miningInProgress) {
                     val rock = getNearestCoalRock()
                     if (rock != null) {
+                        SystemLogger.log("Found coal rock with ID: ${rock.id}. Starting to mine.")
                         rock.interaction.handle(bot, rock.interaction[0])
                         miningInProgress = true
                     } else {
+                        SystemLogger.log("No coal rock found. Walking to a random location in the mine.")
                         // Walk to a random location in the mine to find coal rocks
                         scriptAPI.walkTo(mine.randomLoc)
                     }
                 } else if (currentInventoryCount > lastInventoryCount) {
                     // An ore has been mined
+                    SystemLogger.log("Ore mined. Inventory count increased from $lastInventoryCount to $currentInventoryCount.")
                     lastInventoryCount = currentInventoryCount
                     miningInProgress = false
                 }
@@ -74,107 +84,27 @@ class VarrockCoalMiner() : Script() {
             }
 
             State.TO_BANK -> {
+                SystemLogger.log("State: TO_BANK")
                 if (bank.insideBorder(bot)) {
+                    SystemLogger.log("Bot is at the bank. Finding bank booth.")
                     val bankBooth = scriptAPI.getNearestNode("Bank booth", true)
                     if (bankBooth != null) {
+                        SystemLogger.log("Bank booth found. Initiating banking process.")
                         bot.pulseManager.run(object : BankingPulse(this, bankBooth) {
                             override fun pulse(): Boolean {
+                                SystemLogger.log("Banking pulse executed. Switching to BANKING state.")
                                 state = State.BANKING
                                 return super.pulse()
                             }
                         })
+                    } else {
+                        SystemLogger.log("No bank booth found.")
                     }
 
                 } else {
+                    SystemLogger.log("Bot is not at the bank. Walking to bank.")
                     scriptAPI.walkTo(bank.randomLoc)
                 }
             }
 
-            State.BANKING -> {
-                val depositedCoal = bot.inventory.getAmount(Items.COAL_453)
-                coalAmount += depositedCoal
-                scriptAPI.bankItem(Items.COAL_453)
-                lastInventoryCount = 0
-                miningInProgress = false
-                state = State.TO_MINE
-            }
 
-            State.TO_MINE -> {
-                if (!mine.insideBorder(bot)) {
-                    scriptAPI.walkTo(mine.randomLoc)
-                } else {
-                    state = State.MINING
-                }
-            }
-
-            State.TO_GE -> {
-                scriptAPI.teleportToGE()
-                state = State.SELLING
-            }
-
-            State.SELLING -> {
-                scriptAPI.sellOnGE(Items.COAL_453)
-                state = State.GO_BACK
-            }
-
-            State.GO_BACK -> {
-                scriptAPI.teleport(bank.randomLoc)
-                state = State.TO_MINE
-            }
-
-        }
-    }
-
-    open class BankingPulse(val script: Script, val bank: Node) : MovementPulse(script.bot, bank, DestinationFlag.OBJECT) {
-        override fun pulse(): Boolean {
-            script.bot.faceLocation(bank.location)
-            return true
-        }
-    }
-
-    override fun newInstance(): Script {
-        val script = VarrockCoalMiner()
-        script.bot = SkillingBotAssembler().produce(SkillingBotAssembler.Wealth.POOR, bot.startLocation)
-        return script
-    }
-
-    enum class State {
-        MINING,
-        TO_MINE,
-        TO_BANK,
-        BANKING,
-        TO_GE,
-        SELLING,
-        GO_BACK,
-        INIT
-    }
-
-    init {
-        equipment.add(Item(Items.IRON_PICKAXE_1267))
-        skills.put(Skills.MINING, 75)
-    }
-
-    /**
-     * Helper function to check if the rock is a coal rock.
-     * Uses the correct IDs for coal rocks in 2009scape.
-     */
-    private fun isCoalRock(rock: Node): Boolean {
-        val coalRockIDs = listOf(2096, 2097) // IDs for coal rocks
-        return coalRockIDs.contains(rock.id)
-    }
-
-    /**
-     * Helper function to get the nearest coal rock that can be mined.
-     */
-    private fun getNearestCoalRock(): Node? {
-        // Get the nearest "Rocks" node
-        val rock = scriptAPI.getNearestNode("Rocks", true)
-        // Check if it's a coal rock
-        if (rock != null && isCoalRock(rock)) {
-            return rock
-        } else {
-            return null
-        }
-    }
-
-}
