@@ -44,13 +44,12 @@ class VarrockIronMiner() : Script() {
             State.MINING -> {
                 if (bot.inventory.freeSlots() == 0) {
                     state = State.TO_BANK
-                }
-                if (!mine.insideBorder(bot)) {
+                } else if (!mine.insideBorder(bot)) {
                     scriptAPI.walkTo(mine.randomLoc)
-                } else {
-                    val rock = scriptAPI.getNearestNode("Rocks", true)
-                    if (rock != null && isIronRock(rock)) {
-                        rock.interaction.handle(bot, rock.interaction[0])
+                } else if (!bot.isAnimating()) {
+                    val rock = getNearestIronRock()
+                    if (rock != null) {
+                        scriptAPI.interactWithNode(bot, rock, "Mine")
                     } else {
                         // Walk to a random location in the mine to find iron rocks
                         scriptAPI.walkTo(mine.randomLoc)
@@ -58,6 +57,7 @@ class VarrockIronMiner() : Script() {
                 }
                 overlay!!.setAmount(bot.inventory.getAmount(Items.IRON_ORE_440) + ironAmount)
             }
+
 
             State.TO_BANK -> {
                 if (bank.insideBorder(bot)) {
@@ -151,7 +151,8 @@ class VarrockIronMiner() : Script() {
      * Since we're using the name "Rocks", we need to filter for iron rocks.
      */
     private fun isIronRock(rock: Node): Boolean {
-        val ironRockIDs = listOf(11364, 11365, 11366) // Correct IDs for iron rocks in OSRS
+        // Assuming the scriptAPI provides a way to get the object ID or examine text
+        val ironRockIDs = listOf(2092, 2093) // IDs for iron rocks
         return ironRockIDs.contains(rock.id)
     }
 
