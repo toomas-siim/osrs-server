@@ -16,7 +16,7 @@ public final class SQLManager {
 	/**
 	 * If the sql manager is locally hosted.
 	 */
-	public static final boolean LOCAL = true;
+	public static final boolean LOCAL = false;
 
     /**
      * The database URL.
