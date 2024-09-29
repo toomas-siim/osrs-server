@@ -1,9 +1,9 @@
 {
-  "name": "2009scape",
+  "name": "Libetaria",
 
   "GameSettings": {
-    "debug": true,
-    "dev": true,
+    "debug": false,
+    "dev": false,
     "startGui": false,
     "worldID":"1",
     "countryID": "0",
