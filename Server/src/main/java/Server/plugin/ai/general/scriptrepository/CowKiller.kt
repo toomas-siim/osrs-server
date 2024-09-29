@@ -6,10 +6,6 @@ import core.tools.Items
 import plugin.ai.general.ScriptAPI
 import core.game.world.map.zone.ZoneBorders
 
-@PlayerCompatible
-@ScriptName("Cow Killer")
-@ScriptDescription("Kills cows, loots cowhides, and banks them. Start in any cow area.")
-@ScriptIdentifier("cow_killer")
 class CowKiller : Script() {
     var state = State.INIT
     var cowCounter = 0

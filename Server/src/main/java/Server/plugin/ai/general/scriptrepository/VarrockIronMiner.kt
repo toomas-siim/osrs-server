@@ -152,7 +152,7 @@ class VarrockIronMiner() : Script() {
      */
     private fun isIronRock(rock: Node): Boolean {
         // Assuming the scriptAPI provides a way to get the object ID or examine text
-        val ironRockIDs = listOf(2092, 2093) // IDs for iron rocks
+        val ironRockIDs = listOf(11364, 11365) // IDs for iron rocks
         return ironRockIDs.contains(rock.id)
     }
 
