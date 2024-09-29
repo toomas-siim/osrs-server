@@ -20,7 +20,7 @@ class VarrockIronMiner() : Script() {
 
     val mine = ZoneBorders(3172, 3358, 3184, 3373) // Southwest Varrock iron mine
     val bank = ZoneBorders(3180, 3433, 3185, 3447) // Varrock West Bank
-    val westZone = ZoneBorders(3165, 3430, 3176, 3438) // Small area west of the bank
+    val westZone = ZoneBorders(3160, 3420, 3176, 3438) // Small area west of the bank
     var overlay: ScriptAPI.BottingOverlay? = null
     var ironAmount = 0
     var visitedWestSpot = false
@@ -190,6 +190,6 @@ class VarrockIronMiner() : Script() {
     }
 
     companion object {
-        private val ironRockIDs = listOf(11364, 11365) // OSRS IDs for iron rocks
+        private val ironRockIDs = listOf(11955) // OSRS IDs for iron rocks
     }
 }
