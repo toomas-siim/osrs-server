@@ -1,6 +1,6 @@
 {
-  "ip_address": "localhost",
-  "ip_management" : "localhost",
+  "ip_address": "hivetech.ee",
+  "ip_management" : "hivetech.ee",
   "server_port": 43594,
   "wl_port": 5555,
   "world": 1,
