@@ -21,17 +21,17 @@ public final class SQLManager {
     /**
      * The database URL.
      */
-    public static final String DATABASE_URL = (LOCAL ? "127.0.0.1" : "keldagrim.org") + ":3306/" + (SQLManager.LOCAL ? "global" : ServerConstants.DATABASE_NAMES[1]);
+    public static final String DATABASE_URL = (LOCAL ? "127.0.0.1" : "hivetech.ee") + ":3306/" + (SQLManager.LOCAL ? "2009scape" : ServerConstants.DATABASE_NAMES[1]);
 
     /**
      * The username of the user.
      */
-    private static final String USERNAME = (LOCAL ? "root" : "keldagr1_user");
+    private static final String USERNAME = (LOCAL ? "root" : "2009scape_user");
 
     /**
      * The password of the user.
      */
-    private static final String PASSWORD = (LOCAL ? "" : "2jf4wkz$");
+    private static final String PASSWORD = (LOCAL ? "libetaria2009_password" : "libetaria2009_password");
 	
 	
 	/**

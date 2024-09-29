@@ -38,7 +38,7 @@
     "dialogue_scripts_path": "scripts/dialogue/",
     "logs_path": "data/logs",
     "bot_data_path": "data/botdata/",
-    "database_name": "global",
+    "database_name": "2009scape",
     "database_username": "2009scape_user",
     "database_password": "libetaria2009_password",
     "database_address": "127.0.0.1",
