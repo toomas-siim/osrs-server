@@ -27,6 +27,7 @@ class CowKiller : Script() {
                 overlay!!.setAmount(0)
 
                 // Configure looting cowhides
+                state = State.CONFIG
                 bot.dialogueInterpreter.sendOptions("Loot Cowhides?", "Yes", "No")
                 bot.dialogueInterpreter.addAction { player, button ->
                     lootCowhide = button == 2
