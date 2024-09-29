@@ -17,7 +17,7 @@ import core.game.node.entity.skill.Skills
 class VarrockIronMiner() : Script() {
     var state = State.INIT
 
-    val mine = ZoneBorders(3173, 3360, 3184, 3373) // South-west Varrock Mine
+    val mine = ZoneBorders(3173, 3360, 3184, 3373) // Southwest Varrock iron mine
     val bank = ZoneBorders(3180, 3433, 3185, 3447) // Varrock West Bank
     var overlay: ScriptAPI.BottingOverlay? = null
     var ironAmount = 0
@@ -46,12 +46,12 @@ class VarrockIronMiner() : Script() {
                 if (!mine.insideBorder(bot)) {
                     scriptAPI.walkTo(mine.randomLoc)
                 } else {
-                    val rock = getNearestIronRock()
-                    if (rock != null) {
+                    val rock = scriptAPI.getNearestNode("Rocks", true)
+                    if (rock != null && isIronRock(rock)) {
                         rock.interaction.handle(bot, rock.interaction[0])
                     } else {
-                        // No iron rocks available, wait or walk around
-                        scriptAPI.wait(1000)
+                        // Walk to a random location in the mine to find iron rocks
+                        scriptAPI.walkTo(mine.randomLoc)
                     }
                 }
                 overlay!!.setAmount(bot.inventory.getAmount(Items.IRON_ORE_440) + ironAmount)
@@ -136,17 +136,11 @@ class VarrockIronMiner() : Script() {
     }
 
     /**
-     * Helper function to get the nearest iron rock.
-     */
-    private fun getNearestIronRock(): Node? {
-        val rocks = scriptAPI.getNodesInArea("Rocks", mine)
-        return rocks?.firstOrNull { isIronRock(it) }
-    }
-
-    /**
      * Helper function to check if the rock is an iron rock.
+     * Since we're using the name "Rocks", we need to filter for iron rocks.
      */
     private fun isIronRock(rock: Node): Boolean {
+        // Assuming the scriptAPI provides a way to get the object ID or examine text
         val ironRockIDs = listOf(2092, 2093) // IDs for iron rocks
         return ironRockIDs.contains(rock.id)
     }
