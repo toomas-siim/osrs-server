@@ -3,7 +3,6 @@ package plugin.ai.general.scriptrepository
 import core.game.interaction.DestinationFlag
 import core.game.interaction.MovementPulse
 import core.game.node.Node
-import core.game.node.entity.location.Location
 import core.game.node.item.Item
 import core.game.world.map.zone.ZoneBorders
 import core.tools.Items
@@ -20,7 +19,7 @@ class VarrockIronMiner() : Script() {
 
     val mine = ZoneBorders(3173, 3360, 3184, 3373) // Southwest Varrock iron mine
     val bank = ZoneBorders(3180, 3433, 3185, 3447) // Varrock West Bank
-    val westPoint = Location(3175, 3437) // Location west of the bank
+    val westZone = ZoneBorders(3174, 3436, 3176, 3438) // Small area west of the bank
     var overlay: ScriptAPI.BottingOverlay? = null
     var ironAmount = 0
 
@@ -84,8 +83,8 @@ class VarrockIronMiner() : Script() {
 
             State.TO_MINE -> {
                 if (!mine.insideBorder(bot)) {
-                    if (!bot.location.withinDistance(westPoint, 1)) {
-                        scriptAPI.walkTo(westPoint)
+                    if (!westZone.insideBorder(bot)) {
+                        scriptAPI.walkTo(westZone.randomLoc)
                     } else {
                         scriptAPI.walkTo(mine.randomLoc)
                     }
