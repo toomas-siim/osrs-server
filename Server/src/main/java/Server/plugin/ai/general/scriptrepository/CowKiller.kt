@@ -39,13 +39,9 @@ class CowKiller : Script() {
             }
 
             State.KILLING -> {
-                val cow = scriptAPI.getNearestNode("Cow", true) // Look for the nearest cow that's not in combat
-                if (cow == null) {
-                    scriptAPI.randomWalkTo(bot.location, 3) // Walk randomly if no cow is nearby
-                } else {
-                    scriptAPI.attackNpc(bot, cow)
-                    state = State.LOOTING
-                }
+                // Use the same attack method as in ChickenKiller
+                scriptAPI.attackNpcInRadius(bot, "Cow", 10) // Attacks a cow within a 10-tile radius
+                state = State.LOOTING
             }
 
             State.LOOTING -> {
@@ -78,7 +74,7 @@ class CowKiller : Script() {
             State.BANKING -> {
                 if (bankZone.insideBorder(bot)) {
                     val bank = scriptAPI.getNearestNode(36786, true)
-                    // Simplified banking logic, removing MovementPulse
+                    // Simplified banking logic
                     if (bank != null) {
                         scriptAPI.bankItem(Items.COWHIDE_1739)
                         state = State.BACK_TO_COWS
