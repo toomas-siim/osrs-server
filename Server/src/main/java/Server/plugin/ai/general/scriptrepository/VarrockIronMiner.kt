@@ -151,8 +151,7 @@ class VarrockIronMiner() : Script() {
      * Since we're using the name "Rocks", we need to filter for iron rocks.
      */
     private fun isIronRock(rock: Node): Boolean {
-        // Assuming the scriptAPI provides a way to get the object ID or examine text
-        val ironRockIDs = listOf(2092, 2093) // IDs for iron rocks
+        val ironRockIDs = listOf(11364, 11365, 11366) // Correct IDs for iron rocks in OSRS
         return ironRockIDs.contains(rock.id)
     }
 
