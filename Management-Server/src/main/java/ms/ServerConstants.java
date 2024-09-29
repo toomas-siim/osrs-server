@@ -53,12 +53,11 @@ public final class ServerConstants {
 	 * The administrators.
 	 */
 	public static final String[] ADMINISTRATORS = {
-			"redsparr0w",
+			"AlphaMeesek",
 	};
 	
 	public static final String[] DATABASE_NAMES = {
-			"server",
-			"global",
+			"2009scape"
 	};
 	
 	/**

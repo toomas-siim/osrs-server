@@ -21,7 +21,7 @@ public final class SQLManager {
     /**
      * The database URL.
      */
-    public static final String DATABASE_URL = (LOCAL ? "127.0.0.1" : "hivetech.ee") + ":3306/" + (SQLManager.LOCAL ? "2009scape" : ServerConstants.DATABASE_NAMES[1]);
+    public static final String DATABASE_URL = (LOCAL ? "127.0.0.1" : "hivetech.ee") + ":3306/" + (SQLManager.LOCAL ? "2009scape" : ServerConstants.DATABASE_NAMES[0]);
 
     /**
      * The username of the user.
