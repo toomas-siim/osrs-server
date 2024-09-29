@@ -9,6 +9,7 @@ import core.tools.Items
 import plugin.ai.general.ScriptAPI
 import plugin.ai.skillingbot.SkillingBotAssembler
 import core.game.node.entity.skill.Skills
+import core.game.system.SystemLogger;
 
 @PlayerCompatible
 @ScriptName("Varrock Coal Miner")

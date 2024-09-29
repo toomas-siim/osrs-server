@@ -4,7 +4,7 @@
 killall java
 
 # Start Management-Server in a detached screen session named 'management-server'
-screen -dmS management-server ./gradlew :Management-Server:run
+screen -dmS osrs-ms ./gradlew :Management-Server:run
 
 # Start Server in a detached screen session named 'server'
-screen -dmS server ./gradlew :Server:run
+screen -dmS osrs-server ./gradlew :Server:run

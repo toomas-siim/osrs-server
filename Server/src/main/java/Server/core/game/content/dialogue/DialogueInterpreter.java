@@ -614,6 +614,7 @@ public final class DialogueInterpreter {
     public void addAction(DialogueAction action) {
         actions.add(action);
         SystemLogger.log("Adding action");
+	    SystemLogger.log("Adding action: " + action);
     }
 
     /**
