@@ -17,9 +17,9 @@ import core.game.node.entity.skill.Skills
 class VarrockIronMiner() : Script() {
     var state = State.INIT
 
-    val mine = ZoneBorders(3173, 3360, 3184, 3373) // Southwest Varrock iron mine
+    val mine = ZoneBorders(3172, 3358, 3184, 3373) // Southwest Varrock iron mine
     val bank = ZoneBorders(3180, 3433, 3185, 3447) // Varrock West Bank
-    val westZone = ZoneBorders(3174, 3436, 3176, 3438) // Small area west of the bank
+    val westZone = ZoneBorders(3165, 3430, 3176, 3438) // Small area west of the bank
     var overlay: ScriptAPI.BottingOverlay? = null
     var ironAmount = 0
     var visitedWestSpot = false
