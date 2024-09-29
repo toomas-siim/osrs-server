@@ -22,9 +22,6 @@ class VarrockCoalMiner() : Script() {
     var overlay: ScriptAPI.BottingOverlay? = null
     var coalAmount = 0
 
-    val coalRockIDs = listOf(2096, 2097) // IDs for coal rocks
-    val bankBoothIDs = listOf(2213) // ID for bank booth
-
     override fun tick() {
         when (state) {
 
@@ -49,7 +46,7 @@ class VarrockCoalMiner() : Script() {
                 if (!mine.insideBorder(bot)) {
                     scriptAPI.walkTo(mine.randomLoc)
                 } else {
-                    val rock = scriptAPI.getNearestNode(coalRockIDs, true)
+                    val rock = scriptAPI.getNearestNode("Rocks", true)
                     rock?.interaction?.handle(bot, rock.interaction[0])
                 }
                 overlay!!.setAmount(bot.inventory.getAmount(Items.COAL_453) + coalAmount)
@@ -57,7 +54,7 @@ class VarrockCoalMiner() : Script() {
 
             State.TO_BANK -> {
                 if (bank.insideBorder(bot)) {
-                    val bankBooth = scriptAPI.getNearestNode(bankBoothIDs, true)
+                    val bankBooth = scriptAPI.getNearestNode("Bank booth", true)
                     if (bankBooth != null) {
                         bot.pulseManager.run(object : BankingPulse(this, bankBooth) {
                             override fun pulse(): Boolean {
