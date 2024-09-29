@@ -44,12 +44,13 @@ class VarrockIronMiner() : Script() {
             State.MINING -> {
                 if (bot.inventory.freeSlots() == 0) {
                     state = State.TO_BANK
-                } else if (!mine.insideBorder(bot)) {
+                }
+                if (!mine.insideBorder(bot)) {
                     scriptAPI.walkTo(mine.randomLoc)
-                } else if (!bot.isAnimating()) {
-                    val rock = getNearestIronRock()
-                    if (rock != null) {
-                        scriptAPI.interactWithNode(bot, rock, "Mine")
+                } else {
+                    val rock = scriptAPI.getNearestNode("Rocks", true)
+                    if (rock != null && isIronRock(rock)) {
+                        rock.interaction.handle(bot, rock.interaction[0])
                     } else {
                         // Walk to a random location in the mine to find iron rocks
                         scriptAPI.walkTo(mine.randomLoc)
@@ -57,7 +58,6 @@ class VarrockIronMiner() : Script() {
                 }
                 overlay!!.setAmount(bot.inventory.getAmount(Items.IRON_ORE_440) + ironAmount)
             }
-
 
             State.TO_BANK -> {
                 if (bank.insideBorder(bot)) {
