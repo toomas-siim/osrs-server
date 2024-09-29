@@ -15,8 +15,8 @@ compileKotlin {
 }
 
 run {
-    // Add JVM memory options here, not in the compiler arguments
-    jvmArgs = ['-Xms2560m', '-Xmx4096m', '-XX:MaxPermSize=350m', '-XX:ReservedCodeCacheSize=225m', '-XX:+UseCompressedOops']
+    // Set the initial heap size to 512MB and the maximum heap size to 1024MB
+    jvmArgs = ['-Xms512m', '-Xmx1024m']
 }
 
 dependencies {
