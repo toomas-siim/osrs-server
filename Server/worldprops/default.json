@@ -39,8 +39,8 @@
     "logs_path": "data/logs",
     "bot_data_path": "data/botdata/",
     "database_name": "global",
-    "database_username": "root",
-    "database_password": "",
+    "database_username": "2009scape_user",
+    "database_password": "libetaria2009_password",
     "database_address": "127.0.0.1",
     "database_port": "3306"
   },
