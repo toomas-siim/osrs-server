@@ -22,6 +22,7 @@ class VarrockIronMiner() : Script() {
     val westZone = ZoneBorders(3174, 3436, 3176, 3438) // Small area west of the bank
     var overlay: ScriptAPI.BottingOverlay? = null
     var ironAmount = 0
+    var visitedWestSpot = false
 
     override fun tick() {
         when (state) {
@@ -78,13 +79,18 @@ class VarrockIronMiner() : Script() {
             State.BANKING -> {
                 ironAmount += bot.inventory.getAmount(Items.IRON_ORE_440)
                 scriptAPI.bankItem(Items.IRON_ORE_440)
+                visitedWestSpot = false // Reset visitedWestSpot after banking
                 state = State.TO_MINE
             }
 
             State.TO_MINE -> {
                 if (!mine.insideBorder(bot)) {
-                    if (!westZone.insideBorder(bot)) {
-                        scriptAPI.walkTo(westZone.randomLoc)
+                    if (!visitedWestSpot) {
+                        if (!westZone.insideBorder(bot)) {
+                            scriptAPI.walkTo(westZone.randomLoc)
+                        } else {
+                            visitedWestSpot = true
+                        }
                     } else {
                         scriptAPI.walkTo(mine.randomLoc)
                     }
