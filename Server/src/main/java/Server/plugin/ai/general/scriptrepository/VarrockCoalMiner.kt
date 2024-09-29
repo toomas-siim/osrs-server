@@ -214,7 +214,7 @@ class VarrockCoalMiner() : Script() {
     }
 
     companion object {
-        private val coalRockIDs = listOf(11366, 11367, 11368) // IDs for coal rocks
+        private val coalRockIDs = listOf(11931, 11932) // IDs for coal rocks
     }
 
 }
