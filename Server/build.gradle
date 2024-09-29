@@ -15,8 +15,8 @@ compileKotlin {
 }
 
 run {
-    // Set the initial heap size to 512MB and the maximum heap size to 1024MB
-    jvmArgs = ['-Xms512m', '-Xmx1024m']
+    // Lowered memory settings to fit within your VPS's limits
+    jvmArgs = ['-Xms512m', '-Xmx1024m', '-XX:MetaspaceSize=64m', '-XX:MaxMetaspaceSize=128m', '-XX:+UseG1GC']
 }
 
 dependencies {
