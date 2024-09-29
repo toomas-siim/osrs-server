@@ -1,3 +1,10 @@
+#!/bin/bash
+
+# Kill all Java processes
 killall java
-screen ./gradlew :Management-Server:run
-screen ./gradlew :Server:run
+
+# Start Management-Server in a detached screen session named 'management-server'
+screen -dmS management-server ./gradlew :Management-Server:run
+
+# Start Server in a detached screen session named 'server'
+screen -dmS server ./gradlew :Server:run
