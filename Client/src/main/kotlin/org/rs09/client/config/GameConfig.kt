@@ -93,10 +93,10 @@ class GameConfig {
          * Editable
          */
         @JvmField
-        var IP_ADDRESS = "localhost"
+        var IP_ADDRESS = "hivetech.ee"
 
         @JvmField
-        var IP_MANAGEMENT = "localhost"
+        var IP_MANAGEMENT = "hivetech.ee"
 
         @JvmField
         var SERVER_PORT = 43594
