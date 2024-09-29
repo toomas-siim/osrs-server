@@ -100,6 +100,7 @@ class CowKiller : Script() {
         LOOTING,
         TO_BANK,
         BANKING,
-        BACK_TO_COWS
+        BACK_TO_COWS,
+        CONFIG
     }
 }
