@@ -10,6 +10,10 @@ import core.tools.Items
 import plugin.ai.skillingbot.SkillingBotAssembler
 import core.game.node.entity.skill.Skills
 
+@PlayerCompatible
+@ScriptName("Varrock Essence Miner")
+@ScriptDescription("Varrock Essence miner.")
+@ScriptIdentifier("essence_miner")
 class VarrockEssenceMiner : Script(){
 
     var state = State.TO_ESSENCE
