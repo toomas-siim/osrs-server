@@ -1,6 +1,5 @@
 package core.game.content.dialogue
 
-import com.sun.org.apache.xpath.internal.operations.Bool
 import core.cache.def.impl.NPCDefinition
 import core.cache.def.impl.ObjectDefinition
 import core.game.content.global.shop.Shop
@@ -13,10 +12,9 @@ import core.plugin.Plugin
 
 /**
  * Dialogue for Gabooty
- * @author qmqz
  */
 @Initializable
-class GabootyDialogue(player: Player? = null) : DialoguePlugin(player){
+class GabootyDialogue(player: Player? = null) : DialoguePlugin(player) {
 
     override fun open(vararg args: Any?): Boolean {
         npc = args[0] as NPC
@@ -25,8 +23,10 @@ class GabootyDialogue(player: Player? = null) : DialoguePlugin(player){
     }
 
     override fun handle(interfaceId: Int, buttonId: Int): Boolean {
-        when(stage){
-            0 -> npc(FacialExpression.FRIENDLY,"Not much really... I run a local shop which earns", "me a few trading sticks, but that's about it.", "I keep myself to myself really.").also { stage++ }
+        when(stage) {
+            0 -> npc(FacialExpression.FRIENDLY,"Not much really... I run a local shop which earns",
+                     "me a few trading sticks, but that's about it.",
+                     "I keep myself to myself really.").also { stage++ }
             1 -> player(FacialExpression.FRIENDLY, "What are trading sticks?").also { stage++ }
             2 -> npc(FacialExpression.FRIENDLY,
                 "They're the local currency Bwana, ",
@@ -97,7 +97,7 @@ class GabootyDialogue(player: Player? = null) : DialoguePlugin(player){
             30 -> npc(FacialExpression.FRIENDLY, "Sure you can...which shop would you like to see?",
                 "The Cooperative or Drinks store?").also { stage++ }
 
-            31 ->interpreter.sendOptions("Select an Option",
+            31 -> interpreter.sendOptions("Select an Option",
                 "The Cooperative",
                 "The Drinks Store",
                 "None thanks...").also { stage++ }
