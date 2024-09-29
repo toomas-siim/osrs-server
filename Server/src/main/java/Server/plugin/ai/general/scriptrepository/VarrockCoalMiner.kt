@@ -57,7 +57,7 @@ class VarrockCoalMiner() : Script() {
                 } else if (!miningInProgress) {
                     val rock = getNearestCoalRock()
                     if (rock != null) {
-                        rock.interact(bot, "Mine")
+                        rock.interaction.handle(bot, rock.interaction[0])
                         miningInProgress = true
                     } else {
                         // Walk to a random location in the mine to find coal rocks
@@ -166,9 +166,14 @@ class VarrockCoalMiner() : Script() {
      * Helper function to get the nearest coal rock that can be mined.
      */
     private fun getNearestCoalRock(): Node? {
-        val nodes = scriptAPI.getNearbyNodes()
-        val coalRocks = nodes.filter { isCoalRock(it) && it.hasAction("Mine") }
-        return coalRocks.minByOrNull { it.location.distanceTo(bot.location) }
+        // Get the nearest "Rocks" node
+        val rock = scriptAPI.getNearestNode("Rocks", true)
+        // Check if it's a coal rock
+        if (rock != null && isCoalRock(rock)) {
+            return rock
+        } else {
+            return null
+        }
     }
 
 }
