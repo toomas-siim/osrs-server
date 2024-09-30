@@ -4,6 +4,7 @@ import core.game.system.SystemLogger
 import core.game.world.map.Location
 import core.tools.Items
 import core.game.world.update.flag.context.Animation
+import core.game.world.update.flag.context.Graphics
 import plugin.ai.general.ScriptAPI
 
 @PlayerCompatible
@@ -80,14 +81,16 @@ class AttackLootBot : Script() {
             }
 
             State.BURYING -> {
-                val inventory = bot.inventory
-                for (i in 0 until inventory.size()) {
-                    val item = inventory.getItem(i)
+                val inventoryItems = bot.inventory.toArray()
+                for (item in inventoryItems) {
                     item?.let {
                         when (it.id) {
                             Items.BONES_526, Items.BIG_BONES_532, Items.BABYDRAGON_BONES_534, Items.DRAGON_BONES_536 -> {
-                                inventory.remove(item)
-                                bot.visualize(Animation(827)) // Bury animation
+                                bot.inventory.remove(item)
+                                bot.visualize(Animation(827), Graphics(0)) // Bury animation with no graphics effect
+                            }
+                            else -> {
+                                // Handle other items or do nothing
                             }
                         }
                     }
