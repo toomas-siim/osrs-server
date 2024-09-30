@@ -18,12 +18,12 @@ import core.game.system.SystemLogger
 class VarrockIronMiner() : Script() {
     var state = State.INIT
 
-    val mine = ZoneBorders(3172, 3358, 3184, 3373) // Southwest Varrock iron mine
-    val bank = ZoneBorders(3180, 3433, 3185, 3447) // Varrock West Bank
-    val westZone = ZoneBorders(3160, 3420, 3176, 3438) // Small area west of the bank
-    var overlay: ScriptAPI.BottingOverlay? = null
-    var ironAmount = 0
-    var visitedWestSpot = false
+    private val mine = ZoneBorders(3172, 3358, 3184, 3373) // Southwest Varrock iron mine
+    private val bank = ZoneBorders(3180, 3433, 3185, 3447) // Varrock West Bank
+    private val westZone = ZoneBorders(3160, 3420, 3176, 3438) // Small area west of the bank
+    private var overlay: ScriptAPI.BottingOverlay? = null
+    private var ironAmount = 0
+    private var visitedWestSpot = false
 
     override fun tick() {
         when (state) {
@@ -31,10 +31,10 @@ class VarrockIronMiner() : Script() {
             State.INIT -> {
                 SystemLogger.log("State: INIT")
                 overlay = scriptAPI.getOverlay()
-                overlay!!.init()
-                overlay!!.setTitle("Mining")
-                overlay!!.setTaskLabel("Iron Mined:")
-                overlay!!.setAmount(0)
+                overlay?.init()
+                overlay?.setTitle("Mining")
+                overlay?.setTaskLabel("Iron Mined:")
+                overlay?.setAmount(0)
 
                 if (mine.insideBorder(bot)) {
                     SystemLogger.log("Bot is inside the mine. Switching to MINING state.")
@@ -50,22 +50,27 @@ class VarrockIronMiner() : Script() {
                 if (bot.inventory.freeSlots() == 0) {
                     SystemLogger.log("Inventory full. Switching to TO_BANK state.")
                     state = State.TO_BANK
+                    return
                 }
+
                 if (!mine.insideBorder(bot)) {
                     SystemLogger.log("Bot is not inside the mine. Walking to mine.")
                     scriptAPI.walkTo(mine.randomLoc)
-                } else {
-                    val rock = scriptAPI.getNearestNode("Rocks", true)
-                    if (rock != null && isIronRock(rock)) {
-                        SystemLogger.log("Found iron rock with ID: ${rock.id}. Starting to mine.")
-                        rock.interaction.handle(bot, rock.interaction[0])
-                    } else {
-                        SystemLogger.log("No iron rock found. Walking to a random location in the mine.")
-                        // Walk to a random location in the mine to find iron rocks
-                        scriptAPI.walkTo(mine.randomLoc)
-                    }
+                    return
                 }
-                overlay!!.setAmount(bot.inventory.getAmount(Items.IRON_ORE_440) + ironAmount)
+
+                // Refactored: Use getNearestNode with iron rock IDs
+                val rock = getNearestIronRock()
+                if (rock != null) {
+                    SystemLogger.log("Found iron rock with ID: ${rock.id}. Starting to mine.")
+                    rock.interaction.handle(bot, rock.interaction[0])
+                } else {
+                    SystemLogger.log("No iron rock found. Walking to a random location in the mine.")
+                    // Walk to a random location in the mine to find iron rocks
+                    scriptAPI.walkTo(mine.randomLoc)
+                }
+
+                overlay?.setAmount(bot.inventory.getAmount(Items.IRON_ORE_440) + ironAmount)
             }
 
             State.TO_BANK -> {
@@ -145,6 +150,20 @@ class VarrockIronMiner() : Script() {
             }
 
         }
+    }
+
+    /**
+     * Retrieves the nearest iron rock node using specific iron rock IDs.
+     * @return The nearest iron rock Node or null if none found.
+     */
+    private fun getNearestIronRock(): Node? {
+        for (id in ironRockIDs) {
+            val rock = scriptAPI.getNearestNode(id, true)
+            if (rock != null) {
+                return rock
+            }
+        }
+        return null
     }
 
     open class BankingPulse(val script: Script, val bank: Node) : MovementPulse(script.bot, bank, DestinationFlag.OBJECT) {
