@@ -55,6 +55,31 @@ class ScriptAPI(private val bot: Player) {
     }
 
     /**
+     * Gets all nearby entities that meet the criteria
+     * @return a list of nearby entities
+     * @author tst
+     */
+    fun getNearbyEntities(): List<Node> {
+    	val nearbyEntities = mutableListOf<Node>()
+
+    	// Get the current region based on the bot's location
+    	val region = RegionManager.forId(bot.location.regionId)
+    	val entities = region.planes[bot.location.z].entities
+
+    	// Iterate over all entities in the region
+    	for (node in entities) {
+    		if (node != null && node.name == entityName) {
+    			// Check if the entity is reachable
+    			if (Pathfinder.find(bot, node).isMoveNear) {
+    				nearbyEntities.add(node)
+    			}
+    		}
+    	}
+
+    	return nearbyEntities
+    }
+
+    /**
      * Gets the nearest node with name entityName
      * @param entityName the name of the node to look for
      * @return the nearest node with a matching name or null

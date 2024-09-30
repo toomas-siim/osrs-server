@@ -44,18 +44,23 @@ class AttackLootBot : Script() {
             }
 
             State.ATTACKING -> {
-                val target = scriptAPI.getNearestNode("Any")
-                if (target == null) {
+                val nearbyEntities = scriptAPI.getNearbyEntities() // Fetch nearby entities from scriptAPI
+                if (nearbyEntities.isEmpty()) {
+                    // No nearby entities, walk back to the start location
                     scriptAPI.randomWalkTo(startLocation, 3)
                 } else {
-                    scriptAPI.attackNpcsInRadius(bot, 10)
+                    // Attack all nearby entities
+                    for (entity in nearbyEntities) {
+                        scriptAPI.attackNpc(bot, entity) // Attack each entity
+                    }
+                    // If looting is enabled, transition to IDLE state
                     if (lootBones || lootItems) {
                         state = State.IDLE
                         idleTimer = 4
-                        SystemLogger.log("Going to idle state")
+                        SystemLogger.log("Going to idle state after attacking")
                     }
-                    killCounter++
-                    overlay!!.setAmount(killCounter)
+                    killCounter += nearbyEntities.size // Increment kill counter by number of attacked entities
+                    overlay!!.setAmount(killCounter) // Update overlay with new kill count
                 }
             }
 
