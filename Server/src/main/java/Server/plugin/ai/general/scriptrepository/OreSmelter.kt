@@ -7,6 +7,9 @@ import core.tools.Items
 import plugin.ai.general.ScriptAPI
 import plugin.ai.skillingbot.SkillingBotAssembler
 import core.game.node.entity.skill.Skills
+import core.game.node.Node
+import core.game.interaction.DestinationFlag
+
 
 @PlayerCompatible
 @ScriptName("Falador Ore Smelter")
@@ -14,7 +17,7 @@ import core.game.node.entity.skill.Skills
 @ScriptIdentifier("fally_ore_smelter")
 class OreSmelter() : Script() {
     var state = State.INIT
-    var selectedOre = Items.BRONZE_BAR // Default ore for smelting
+    var selectedOre = Items.BRONZE_BAR_2349 // Default ore for smelting
     var smeltedAmount = 0
 
     val smelterZone = ZoneBorders(2974, 3369, 2979, 3373) // Falador furnace location
