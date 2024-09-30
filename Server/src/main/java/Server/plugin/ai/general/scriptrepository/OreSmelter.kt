@@ -34,11 +34,15 @@ class OreSmelter() : Script() {
                 bot.dialogueInterpreter.sendOptions("Select Ore to Smelt", "Bronze", "Iron", "Steel", "Gold")
                 bot.dialogueInterpreter.addAction { _, button ->
                     selectedOre = when (button) {
-                        1 -> Items.BRONZE_BAR
-                        2 -> Items.IRON_BAR
-                        3 -> Items.STEEL_BAR
-                        4 -> Items.GOLD_BAR
-                        else -> Items.BRONZE_BAR
+                        1 -> Items.BRONZE_BAR_2349
+						2 -> Items.IRON_BAR_2351
+						3 -> Items.STEEL_BAR_2353
+						4 -> Items.SILVER_BAR_2355
+						5 -> Items.GOLD_BAR_2357
+						6 -> Items.MITHRIL_BAR_2359
+						7 -> Items.ADAMANTITE_BAR_2361
+						8 -> Items.RUNITE_BAR_2363
+						else -> Items.BRONZE_BAR_2349
                     }
                     state = State.TO_SMELTER
                 }
