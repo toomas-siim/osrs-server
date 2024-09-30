@@ -34,7 +34,7 @@ class OreSmelter() : Script() {
                 overlay!!.setTaskLabel("Bars Smelted:")
                 overlay!!.setAmount(0)
 
-                bot.dialogueInterpreter.sendOptions("Select Ore to Smelt", "Bronze", "Iron", "Steel", "Gold")
+                bot.dialogueInterpreter.sendOptions("Select Ore to Smelt", "Bronze", "Iron", "Steel", "Silver", "Gold", "Mithril", "Adamantite", "Runite")
                 bot.dialogueInterpreter.addAction { _, button ->
                     selectedOre = when (button) {
                         1 -> Items.BRONZE_BAR_2349
