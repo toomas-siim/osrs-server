@@ -3,6 +3,7 @@ package plugin.ai.general.scriptrepository
 import core.game.system.SystemLogger
 import core.game.world.map.Location
 import core.tools.Items
+import core.game.world.update.flag.context.Animation
 import plugin.ai.general.ScriptAPI
 
 @PlayerCompatible
@@ -79,12 +80,14 @@ class AttackLootBot : Script() {
             }
 
             State.BURYING -> {
-                if (lootBones) {
-                    bot.inventory.items.forEach { item ->
-                        when (item.id) {
+                val inventory = bot.inventory
+                for (i in 0 until inventory.size()) {
+                    val item = inventory.getItem(i)
+                    item?.let {
+                        when (it.id) {
                             Items.BONES_526, Items.BIG_BONES_532, Items.BABYDRAGON_BONES_534, Items.DRAGON_BONES_536 -> {
-                                bot.inventory.remove(item)
-                                scriptAPI.bot.performAnimation(Animation(827)) // Bury animation
+                                inventory.remove(item)
+                                bot.visualize(Animation(827)) // Bury animation
                             }
                         }
                     }
