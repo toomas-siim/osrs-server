@@ -65,7 +65,8 @@ class OreSmelter() : Script() {
                     furnace.interaction.handle(bot, furnace.interaction[0])
                     bot.pulseManager.run(object : SmeltingPulse(this, furnace) {
                         override fun pulse(): Boolean {
-                            state = if (bot.inventory.freeSlots() == 0) {
+                            // Check if the bot has no ores left to smelt
+                            state = if (bot.inventory.getAmount(selectedOre) == 0) {
                                 State.TO_BANK
                             } else {
                                 State.SMELTING
@@ -76,6 +77,7 @@ class OreSmelter() : Script() {
                 }
                 overlay!!.setAmount(smeltedAmount)
             }
+
 
             State.TO_BANK -> {
                 if (bankZone.insideBorder(bot)) {
