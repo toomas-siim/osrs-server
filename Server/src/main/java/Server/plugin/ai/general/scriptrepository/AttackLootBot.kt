@@ -45,7 +45,7 @@ class AttackLootBot : Script() {
             }
 
             State.ATTACKING -> {
-                val nearbyEntities = scriptAPI.getNearbyEntities() // Fetch nearby entities from scriptAPI
+                val nearbyEntities = scriptAPI.getNearbyEntities(bot) // Fetch nearby entities from scriptAPI
                 if (nearbyEntities.isEmpty()) {
                     // No nearby entities, walk back to the start location
                     scriptAPI.randomWalkTo(startLocation, 3)
