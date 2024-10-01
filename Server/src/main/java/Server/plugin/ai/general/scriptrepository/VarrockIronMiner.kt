@@ -70,7 +70,10 @@ class VarrockIronMiner() : Script() {
                     scriptAPI.walkTo(mine.randomLoc)
                 }
 
-                overlay?.setAmount(bot.inventory.getAmount(Items.IRON_ORE_440) + ironAmount)
+                // Update to track both iron ore types
+                overlay?.setAmount(bot.inventory.getAmount(Items.IRON_ORE_440) +
+                                   bot.inventory.getAmount(Items.IRON_ORE_441) +
+                                   ironAmount)
             }
 
             State.TO_BANK -> {
@@ -99,9 +102,13 @@ class VarrockIronMiner() : Script() {
 
             State.BANKING -> {
                 SystemLogger.log("State: BANKING")
-                ironAmount += bot.inventory.getAmount(Items.IRON_ORE_440)
-                SystemLogger.log("Depositing ${bot.inventory.getAmount(Items.IRON_ORE_440)} iron. Total iron mined: $ironAmount.")
+                val iron440 = bot.inventory.getAmount(Items.IRON_ORE_440)
+                val iron441 = bot.inventory.getAmount(Items.IRON_ORE_441)
+                ironAmount += iron440 + iron441
+
+                SystemLogger.log("Depositing $iron440 iron ore (440) and $iron441 iron ore (441). Total iron mined: $ironAmount.")
                 scriptAPI.bankItem(Items.IRON_ORE_440)
+                scriptAPI.bankItem(Items.IRON_ORE_441)
                 visitedWestSpot = false // Reset visitedWestSpot after banking
                 SystemLogger.log("Resetting visitedWestSpot. Switching to TO_MINE state.")
                 state = State.TO_MINE
@@ -138,6 +145,7 @@ class VarrockIronMiner() : Script() {
             State.SELLING -> {
                 SystemLogger.log("State: SELLING")
                 scriptAPI.sellOnGE(Items.IRON_ORE_440)
+                scriptAPI.sellOnGE(Items.IRON_ORE_441)
                 SystemLogger.log("Sold iron at the Grand Exchange. Switching to GO_BACK state.")
                 state = State.GO_BACK
             }
