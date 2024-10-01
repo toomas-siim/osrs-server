@@ -54,7 +54,8 @@ class MithrilMiner() : Script() {
                     val rock = scriptAPI.getNearestNode("mithril rocks",true)
                     rock?.interaction?.handle(bot,rock.interaction[0])
                 }
-                overlay!!.setAmount(bot.inventory.getAmount(Items.MITHRIL_ORE_447) + mithrilAmount)
+                overlay!!.setAmount(bot.inventory.getAmount(Items.MITHRIL_ORE_447) +
+                                    bot.inventory.getAmount(Items.MITHRIL_ORE_448) + mithrilAmount)
             }
 
             State.TO_BANK -> {
@@ -81,8 +82,11 @@ class MithrilMiner() : Script() {
             }
 
             State.BANKING -> {
-                mithrilAmount += bot.inventory.getAmount(Items.MITHRIL_ORE_447)
+                // Handle both Mithril ore IDs for banking
+                mithrilAmount += bot.inventory.getAmount(Items.MITHRIL_ORE_447) +
+                                 bot.inventory.getAmount(Items.MITHRIL_ORE_448)
                 scriptAPI.bankItem(Items.MITHRIL_ORE_447)
+                scriptAPI.bankItem(Items.MITHRIL_ORE_448)
                 state = State.TO_MINE
             }
 
@@ -114,7 +118,9 @@ class MithrilMiner() : Script() {
             }
 
             State.SELLING -> {
+                // Handle selling both Mithril ores
                 scriptAPI.sellOnGE(Items.MITHRIL_ORE_447)
+                scriptAPI.sellOnGE(Items.MITHRIL_ORE_448)
                 state = State.GO_BACK
             }
 
