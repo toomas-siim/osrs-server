@@ -68,7 +68,7 @@ class ScriptAPI(private val bot: Player) {
 
     	// Iterate over all entities in the region
     	for (node in entities) {
-    		if (node != null && node.name == entityName) {
+    		if (node != null) {
     			// Check if the entity is reachable
     			if (Pathfinder.find(bot, node).isMoveNear) {
     				nearbyEntities.add(node)
@@ -288,6 +288,42 @@ class ScriptAPI(private val bot: Player) {
             }
             false
         }
+    }
+
+    /**
+     * Attacks the specified NPC by entityId.
+     * @param bot the bot that is attacking
+     * @param entityId the ID of the NPC to attack
+     * @return true if successfully attacking the NPC, false if not.
+     * @author Ceikry
+     */
+    fun attackNpc(bot: Player, entityId: Int): Boolean {
+        if (bot.inCombat()) return true // If already in combat, return true
+
+        // Find the NPC with the specified entityId
+        val target: Entity? = findTargetById(bot, entityId)
+
+        return if (target != null) {
+            // Attack the found NPC
+            bot.attack(target)
+            true
+        } else {
+            false // NPC with the given entityId not found
+        }
+    }
+
+    /**
+     * Finds the NPC based on the given entityId within the bot's visible range.
+     * @param bot the bot to use for searching
+     * @param entityId the ID of the NPC to find
+     * @return the NPC Entity if found, or null if not found
+     */
+    fun findTargetById(bot: Player, entityId: Int): Entity? {
+        // Get a list of nearby NPCs or entities
+        val nearbyCreatures: List<Entity> = bot.getNearbyEntities()
+
+        // Search for the NPC with the given entityId
+        return nearbyCreatures.firstOrNull { it.id == entityId }
     }
 
     /**

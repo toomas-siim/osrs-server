@@ -1,5 +1,6 @@
 package plugin.ai.general.scriptrepository
 
+import java.util.Random
 import core.game.system.SystemLogger
 import core.game.world.map.Location
 import core.tools.Items
@@ -51,7 +52,12 @@ class AttackLootBot : Script() {
                 } else {
                     // Attack all nearby entities
                     for (entity in nearbyEntities) {
-                        scriptAPI.attackNpc(bot, entity) // Attack each entity
+                        // 1/10 chance of attacking
+                        val randomChance = Random().nextInt(10) // Generates a number between 0 and 9
+                        if (randomChance == 0) { // 1/10 chance (when randomChance == 0)
+                            scriptAPI.attackNpc(bot, entity.id) // Attack entity
+                            break // Optionally stop after attacking the first entity that meets the 1/10 chance
+                        }
                     }
                     // If looting is enabled, transition to IDLE state
                     if (lootBones || lootItems) {
