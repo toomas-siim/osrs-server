@@ -295,7 +295,7 @@ class ScriptAPI(private val bot: Player) {
      * @param bot the bot that is attacking
      * @param entityId the ID of the NPC to attack
      * @return true if successfully attacking the NPC, false if not.
-     * @author Ceikry
+     * @author tst
      */
     fun attackNpc(bot: Player, entityId: Int): Boolean {
         if (bot.inCombat()) return true // If already in combat, return true
@@ -320,7 +320,7 @@ class ScriptAPI(private val bot: Player) {
      */
     fun findTargetById(bot: Player, entityId: Int): Entity? {
         // Get a list of nearby NPCs or entities
-        val nearbyCreatures: List<Entity> = getNearbyEntities(bot)
+        val nearbyCreatures: List<Node> = getNearbyEntities(bot)
 
         // Search for the NPC with the given entityId
         return nearbyCreatures.firstOrNull { it.id == entityId }
