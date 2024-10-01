@@ -59,7 +59,7 @@ class ScriptAPI(private val bot: Player) {
      * @return a list of nearby entities
      * @author tst
      */
-    fun getNearbyEntities(bot): List<Node> {
+    fun getNearbyEntities(bot: Player): List<Node> {
     	val nearbyEntities = mutableListOf<Node>()
 
     	// Get the current region based on the bot's location
@@ -318,7 +318,7 @@ class ScriptAPI(private val bot: Player) {
      * @param entityId the ID of the NPC to find
      * @return the NPC Entity if found, or null if not found
      */
-    fun findTargetById(bot: Player, entityId: Int): Entity? {
+    fun findTargetById(bot: Player, entityId: Int): Node? {
         // Get a list of nearby NPCs or entities
         val nearbyCreatures: List<Node> = getNearbyEntities(bot)
 
