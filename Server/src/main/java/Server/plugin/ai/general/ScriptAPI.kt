@@ -301,7 +301,7 @@ class ScriptAPI(private val bot: Player) {
         if (bot.inCombat()) return true // If already in combat, return true
 
         // Find the NPC with the specified entityId
-        val target: Entity? = findTargetById(bot, entityId)
+        val target: Node? = findTargetById(bot, entityId)
 
         return if (target != null) {
             // Attack the found NPC
