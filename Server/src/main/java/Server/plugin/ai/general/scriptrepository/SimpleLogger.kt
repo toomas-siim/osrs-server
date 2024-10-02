@@ -20,6 +20,7 @@ class SimpleLogger() : Script() {
         // Reset the set of logged IDs each tick
         loggedIds.clear()
 
+        logInventory()
         logUniqueNearbyNodes()
     }
 
