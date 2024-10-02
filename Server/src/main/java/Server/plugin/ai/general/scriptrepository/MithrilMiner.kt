@@ -52,7 +52,11 @@ class MithrilMiner() : Script() {
                 // If inventory is full and the bot is near the bank, go to bank state
                 if (bot.inventory.freeSlots() == 0) {
 					SystemLogger.log("Inventory full and near bank, switching to TO_BANK state")
-					state = State.TO_BANK
+                	if (bank.insideBorder(bot)) {
+						state = State.BANKING
+                    } else {
+						state = State.TO_BANK
+                    }
 					return
                 }
 
