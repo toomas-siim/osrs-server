@@ -29,9 +29,6 @@ class MithrilMiner() : Script() {
     override fun tick() {
         SystemLogger.log("Tick invoked with state: $state")
 
-        // Log nearby items
-        logNearbyItems()
-
         when(state){
             State.INIT -> {
                 SystemLogger.log("Initializing script...")
@@ -63,6 +60,7 @@ class MithrilMiner() : Script() {
                     scriptAPI.walkTo(mine.randomLoc)
                 } else {
                     SystemLogger.log("Mining Mithril...")
+                    logNearbyItems()
                     val rock = scriptAPI.getNearestNode("rocks",true)
                     rock?.interaction?.handle(bot,rock.interaction[0])
                 }
