@@ -12,7 +12,7 @@ import plugin.ai.skillingbot.SkillingBotAssembler
 @ScriptIdentifier("simple_logger")
 class SimpleLogger() : Script() {
 
-    private val loggedIds // Set to store unique IDs
+    private val loggedIds = mutableSetOf<Int>() // Set to store unique IDs
 
     override fun tick() {
         SystemLogger.log("Tick invoked: Logging unique nearby entities.")
