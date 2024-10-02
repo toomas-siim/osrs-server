@@ -21,7 +21,7 @@ class MithrilMiner() : Script() {
 
     val bottomLadder = ZoneBorders(3016,9736,3024,9742)
     val topLadder = ZoneBorders(3016,3336,3022,3342)
-    val mine = ZoneBorders(3047,9733,3074,9743)
+    val mine = ZoneBorders(3037,9733,3064,9743)
     val bank = ZoneBorders(3009,3355,3018,3358)
 
     // Corrected array initialization
