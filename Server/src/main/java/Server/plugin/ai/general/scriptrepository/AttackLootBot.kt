@@ -32,12 +32,17 @@ class AttackLootBot : Script() {
                 overlay!!.setAmount(0)
                 state = State.CONFIG
 
-                // Prompt user for input on what to kill
-                bot.dialogueInterpreter.sendInputRequest("What entity should I attack?", "") { input ->
-                    entityToKill = input.toLowerCase() // Store the user input in lowercase
+                // Predefined options for user to choose target entity
+                bot.dialogueInterpreter.sendOptions("Which entity should I attack?", "Goblin", "Zombie", "Cow")
+                bot.dialogueInterpreter.addAction { player, button ->
+                    entityToKill = when (button) {
+                        1 -> "goblin"
+                        2 -> "zombie"
+                        3 -> "cow"
+                        else -> ""
+                    }
                     state = State.CONFIG_LOOTING_OPTIONS
                 }
-
                 startLocation = bot.location
             }
 
