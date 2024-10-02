@@ -16,7 +16,9 @@ class SimpleLogger() : Script() {
 
     override fun tick() {
         SystemLogger.log("Tick invoked: Logging unique nearby entities.")
-        loggedIds = mutableSetOf<Int>()
+
+        // Reset the set of logged IDs each tick
+        loggedIds.clear()
 
         logUniqueNearbyNodes()
     }
