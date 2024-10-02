@@ -78,6 +78,7 @@ class MithrilMiner() : Script() {
                         rock.interaction?.handle(bot, rock.interaction[0])
                     } else {
                         SystemLogger.log("No Mithril ore rock nearby.")
+                    	scriptAPI.walkTo(mine.randomLoc)
                     }
                 }
                 overlay!!.setAmount(bot.inventory.getAmount(Items.MITHRIL_ORE_447) +
