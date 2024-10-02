@@ -21,7 +21,7 @@ class MithrilMiner() : Script() {
 
     val bottomLadder = ZoneBorders(3016,9736,3024,9742)
     val topLadder = ZoneBorders(3016,3336,3022,3342)
-    val mine = ZoneBorders(3007,9753,3034,9763)
+    val mine = ZoneBorders(3047,9733,3074,9743)
     val bank = ZoneBorders(3009,3355,3018,3358)
     var overlay: ScriptAPI.BottingOverlay? = null
     var mithrilAmount = 0
