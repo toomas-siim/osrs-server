@@ -13,166 +13,160 @@ import core.game.system.SystemLogger
 
 @PlayerCompatible
 @ScriptName("Falador Mithril Miner")
-@ScriptDescription("Start in Falador East Bank with a pick equipped", "or in your inventory.")
+@ScriptDescription("Start in Falador East Bank with a pick equipped","or in your inventory.")
 @ScriptIdentifier("fally_mithril")
 class MithrilMiner() : Script() {
     var state = State.INIT
+    var ladderSwitch = false
 
-    private val mine = ZoneBorders(3027, 9733, 3054, 9743) // Falador Mithril mine
-    private val bank = ZoneBorders(3009, 3355, 3018, 3358) // Falador East Bank
-    private var overlay: ScriptAPI.BottingOverlay? = null
-    private var mithrilAmount = 0
+    val bottomLadder = ZoneBorders(3016,9736,3024,9742)
+    val topLadder = ZoneBorders(3016,3336,3022,3342)
+    val mine = ZoneBorders(3007,9733,3034,9743)
+    val bank = ZoneBorders(3009,3355,3018,3358)
+    var overlay: ScriptAPI.BottingOverlay? = null
+    var mithrilAmount = 0
 
     override fun tick() {
-        when (state) {
+        SystemLogger.log("Tick invoked with state: $state")
+        when(state){
 
             State.INIT -> {
-                SystemLogger.log("State: INIT")
+                SystemLogger.log("Initializing script...")
                 overlay = scriptAPI.getOverlay()
-                overlay?.init()
-                overlay?.setTitle("Mining")
-                overlay?.setTaskLabel("Mithril Mined:")
-                overlay?.setAmount(0)
+                ladderSwitch = true
+                overlay!!.init()
+                overlay!!.setTitle("Mining")
+                overlay!!.setTaskLabel("Mithril Mined:")
+                overlay!!.setAmount(0)
 
-                if (mine.insideBorder(bot)) {
-                    SystemLogger.log("Bot is inside the mine. Switching to MINING state.")
+                if (mine.insideBorder(bot)){
+                    SystemLogger.log("Inside mining zone, switching to MINING state")
+                    ladderSwitch = false
                     state = State.MINING
                 } else {
-                    SystemLogger.log("Bot is not inside the mine. Switching to TO_MINE state.")
+                    SystemLogger.log("Not inside mining zone, switching to TO_MINE state")
                     state = State.TO_MINE
                 }
             }
 
             State.MINING -> {
-                SystemLogger.log("State: MINING")
-                if (bot.inventory.freeSlots() == 0) {
-                    SystemLogger.log("Inventory full. Switching to TO_BANK state.")
+                SystemLogger.log("Current state: MINING")
+                if(bot.inventory.freeSlots() == 0){
+                    SystemLogger.log("Inventory full, switching to TO_BANK state")
                     state = State.TO_BANK
-                    return
                 }
-
-                if (!mine.insideBorder(bot)) {
-                    SystemLogger.log("Bot is not inside the mine. Walking to mine.")
+                if(!mine.insideBorder(bot)){
+                    SystemLogger.log("Bot not inside mine, walking to mine")
                     scriptAPI.walkTo(mine.randomLoc)
-                    return
-                }
-
-                // Refactored: Use getNearestNode with Mithril rock IDs
-                val rock = getNearestMithrilRock()
-                if (rock != null) {
-                    SystemLogger.log("Found Mithril rock with ID: ${rock.id}. Starting to mine.")
-                    rock.interaction.handle(bot, rock.interaction[0])
                 } else {
-                    SystemLogger.log("No Mithril rock found. Walking to a random location in the mine.")
-                    // Walk to a random location in the mine to find Mithril rocks
-                    scriptAPI.walkTo(mine.randomLoc)
+                    SystemLogger.log("Mining Mithril...")
+                    val rock = scriptAPI.getNearestNode("rocks",true)
+                    // @TODO: Is mithril ids ?
+                    rock?.interaction?.handle(bot,rock.interaction[0])
                 }
-
-                // Update to track both Mithril ore types
-                overlay?.setAmount(bot.inventory.getAmount(Items.MITHRIL_ORE_447) +
-                                   bot.inventory.getAmount(Items.MITHRIL_ORE_448) +
-                                   mithrilAmount)
+                overlay!!.setAmount(bot.inventory.getAmount(Items.MITHRIL_ORE_447) +
+                                    bot.inventory.getAmount(Items.MITHRIL_ORE_448) + mithrilAmount)
             }
 
             State.TO_BANK -> {
-                SystemLogger.log("State: TO_BANK")
-                if (bank.insideBorder(bot)) {
-                    SystemLogger.log("Bot is at the bank. Finding bank booth.")
-                    val bankBooth = scriptAPI.getNearestNode("Bank booth", true)
-                    if (bankBooth != null) {
-                        SystemLogger.log("Bank booth found. Initiating banking process.")
-                        bot.pulseManager.run(object : BankingPulse(this, bankBooth) {
+                SystemLogger.log("Current state: TO_BANK")
+                if(bank.insideBorder(bot)){
+                    SystemLogger.log("Inside bank zone, interacting with the bank")
+                    val bank = scriptAPI.getNearestNode("bank booth",true)
+                    if(bank != null) {
+                        bot.pulseManager.run(object : BankingPulse(this, bank){
                             override fun pulse(): Boolean {
-                                SystemLogger.log("Banking pulse executed. Switching to BANKING state.")
                                 state = State.BANKING
+                                SystemLogger.log("Switched to BANKING state")
                                 return super.pulse()
                             }
                         })
-                    } else {
-                        SystemLogger.log("No bank booth found.")
                     }
 
                 } else {
-                    SystemLogger.log("Bot is not at the bank. Walking to bank.")
-                    scriptAPI.walkTo(bank.randomLoc)
+                    if(!ladderSwitch) {
+                        SystemLogger.log("Finding and using the ladder to go up")
+                        val ladder = scriptAPI.getNearestNode(30941, true)
+                        ladder ?: scriptAPI.walkTo(bottomLadder.randomLoc).also { return }
+                        ladder?.interaction?.handle(bot, ladder.interaction[0]).also { ladderSwitch = true }
+                    } else {
+                        if (!bank.insideBorder(bot)) scriptAPI.walkTo(bank.randomLoc).also { return }
+                    }
                 }
             }
 
             State.BANKING -> {
-                SystemLogger.log("State: BANKING")
-                val mithril447 = bot.inventory.getAmount(Items.MITHRIL_ORE_447)
-                val mithril448 = bot.inventory.getAmount(Items.MITHRIL_ORE_448)
-                mithrilAmount += mithril447 + mithril448
-
-                SystemLogger.log("Depositing $mithril447 Mithril ore (447) and $mithril448 Mithril ore (448). Total Mithril mined: $mithrilAmount.")
+                SystemLogger.log("Current state: BANKING")
+                mithrilAmount += bot.inventory.getAmount(Items.MITHRIL_ORE_447) +
+                                 bot.inventory.getAmount(Items.MITHRIL_ORE_448)
+                SystemLogger.log("Banking Mithril ore...")
                 scriptAPI.bankItem(Items.MITHRIL_ORE_447)
                 scriptAPI.bankItem(Items.MITHRIL_ORE_448)
-                SystemLogger.log("Switching to TO_MINE state.")
                 state = State.TO_MINE
+                SystemLogger.log("Switching to TO_MINE state")
             }
 
             State.TO_MINE -> {
-                SystemLogger.log("State: TO_MINE")
-                if (!mine.insideBorder(bot)) {
-                    SystemLogger.log("Walking to mine.")
-                    scriptAPI.walkTo(mine.randomLoc)
+                SystemLogger.log("Current state: TO_MINE")
+                if(ladderSwitch){
+                    if(!topLadder.insideBorder(bot.location)){
+                        SystemLogger.log("Walking to top ladder zone")
+                        scriptAPI.walkTo(topLadder.randomLoc)
+                    } else {
+                        SystemLogger.log("Interacting with ladder to go down")
+                        val ladder = scriptAPI.getNearestNode("Ladder",true)
+                        if(ladder != null){
+                            ladder.interaction.handle(bot,ladder.interaction[0])
+                            ladderSwitch = false
+                        } else {
+                            scriptAPI.walkTo(topLadder.randomLoc)
+                        }
+                    }
                 } else {
-                    SystemLogger.log("Arrived at mine. Switching to MINING state.")
-                    state = State.MINING
+                    if(!mine.insideBorder(bot)){
+                        SystemLogger.log("Walking to mine zone")
+                        scriptAPI.walkTo(mine.randomLoc)
+                    } else {
+                        SystemLogger.log("Switching to MINING state")
+                        state = State.MINING
+                    }
                 }
             }
 
             State.TO_GE -> {
-                SystemLogger.log("State: TO_GE")
+                SystemLogger.log("Teleporting to Grand Exchange...")
                 scriptAPI.teleportToGE()
-                SystemLogger.log("Teleported to Grand Exchange. Switching to SELLING state.")
                 state = State.SELLING
             }
 
             State.SELLING -> {
-                SystemLogger.log("State: SELLING")
+                SystemLogger.log("Selling Mithril ore...")
                 scriptAPI.sellOnGE(Items.MITHRIL_ORE_447)
                 scriptAPI.sellOnGE(Items.MITHRIL_ORE_448)
-                SystemLogger.log("Sold Mithril at the Grand Exchange. Switching to GO_BACK state.")
                 state = State.GO_BACK
             }
 
             State.GO_BACK -> {
-                SystemLogger.log("State: GO_BACK")
+                SystemLogger.log("Teleporting back to the bank...")
                 scriptAPI.teleport(bank.randomLoc)
-                SystemLogger.log("Teleported back to bank area. Switching to TO_MINE state.")
                 state = State.TO_MINE
             }
 
         }
     }
 
-    /**
-     * Retrieves the nearest Mithril rock node using specific Mithril rock IDs.
-     * @return The nearest Mithril rock Node or null if none found.
-     */
-    private fun getNearestMithrilRock(): Node? {
-        for (id in mithrilRockIDs) {
-            val rock = scriptAPI.getNearestNode(id, true)
-            if (rock != null) {
-                return rock
-            }
-        }
-        return null
-    }
-
-    open class BankingPulse(val script: Script, val bank: Node) : MovementPulse(script.bot, bank, DestinationFlag.OBJECT) {
+    open class BankingPulse(val script: Script, val bank: Node) : MovementPulse(script.bot,bank, DestinationFlag.OBJECT){
         override fun pulse(): Boolean {
-            SystemLogger.log("BankingPulse: Facing bank location.")
             script.bot.faceLocation(bank.location)
+            SystemLogger.log("Banking pulse in action")
             return true
         }
     }
 
     override fun newInstance(): Script {
-        SystemLogger.log("Creating new instance of MithrilMiner script.")
+        SystemLogger.log("Creating new instance of MithrilMiner script")
         val script = MithrilMiner()
-        script.bot = SkillingBotAssembler().produce(SkillingBotAssembler.Wealth.POOR, bot.startLocation)
+        script.bot = SkillingBotAssembler().produce(SkillingBotAssembler.Wealth.POOR,bot.startLocation)
         return script
     }
 
@@ -188,12 +182,9 @@ class MithrilMiner() : Script() {
     }
 
     init {
-        SystemLogger.log("Initializing MithrilMiner script.")
+        SystemLogger.log("Initializing MithrilMiner with necessary equipment and skill level")
         equipment.add(Item(Items.IRON_PICKAXE_1267))
-        skills.put(Skills.MINING, 55)  // Adjusted for Mithril mining
+        skills.put(Skills.MINING,55)  // Adjusted for Mithril mining
     }
 
-    companion object {
-        private val mithrilRockIDs = listOf(11373) // OSRS IDs for Mithril rocks
-    }
 }
