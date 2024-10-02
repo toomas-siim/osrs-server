@@ -15,36 +15,20 @@ class SimpleLogger() : Script() {
     override fun tick() {
         SystemLogger.log("Tick invoked: Logging nearby entities.")
 
-        // Log nearby items
-        logNearbyItems()
-
-        // Log nearby objects
-        logNearbyObjects()
+        logNearbyNodes()
     }
 
     // Function to log all nearby items
-    fun logNearbyItems() {
-        val nearbyItems = scriptAPI.getNearbyItems() // Replace with actual method to get nearby items
+    fun logNearbyNodes() {
+        val nearbyItems = scriptAPI.getNearbyEntities(bot)
         if (nearbyItems != null && nearbyItems.isNotEmpty()) {
-            SystemLogger.log("Nearby items:")
+            SystemLogger.log("Nearby node:")
             for (item in nearbyItems) {
-                SystemLogger.log("Item: ${item.name} (ID: ${item.id}) at ${item.location}")
+                SystemLogger.log("Node: ${item.name} (ID: ${item.id}) at ${item.location}")
+                SystemLogger.log("${item}")
             }
         } else {
             SystemLogger.log("No nearby items found.")
-        }
-    }
-
-    // Function to log all nearby objects
-    fun logNearbyObjects() {
-        val nearbyObjects = scriptAPI.getNearbyNodes() // Replace with actual method to get nearby objects
-        if (nearbyObjects != null && nearbyObjects.isNotEmpty()) {
-            SystemLogger.log("Nearby objects:")
-            for (obj in nearbyObjects) {
-                SystemLogger.log("Object: ${obj.name} (ID: ${obj.id}) at ${obj.location}")
-            }
-        } else {
-            SystemLogger.log("No nearby objects found.")
         }
     }
 
