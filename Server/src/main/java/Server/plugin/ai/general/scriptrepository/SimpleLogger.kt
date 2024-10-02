@@ -21,7 +21,7 @@ class SimpleLogger() : Script() {
     // Function to log all nearby items
     fun logNearbyNodes() {
         val nearbyItems = scriptAPI.getNearbyEntities(bot)
-        if (nearbyItems != null && nearbyItems.isNotEmpty()) {
+        if (nearbyItems.isNotEmpty()) {
             SystemLogger.log("Nearby node:")
             for (item in nearbyItems) {
                 SystemLogger.log("Node: ${item.name} (ID: ${item.id}) at ${item.location}")
