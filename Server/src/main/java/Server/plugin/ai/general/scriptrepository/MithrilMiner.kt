@@ -62,7 +62,7 @@ class MithrilMiner() : Script() {
                     SystemLogger.log("Mining Mithril...")
                     logNearbyItems()
                     val rock = scriptAPI.getNearestNode("rocks",true)
-                    rock?.interaction?.handle(bot,rock.interaction[0])
+                    //rock?.interaction?.handle(bot,rock.interaction[0])
                 }
                 overlay!!.setAmount(bot.inventory.getAmount(Items.MITHRIL_ORE_447) +
                                     bot.inventory.getAmount(Items.MITHRIL_ORE_448) + mithrilAmount)
