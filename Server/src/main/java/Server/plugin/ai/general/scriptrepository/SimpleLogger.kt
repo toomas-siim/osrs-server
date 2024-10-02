@@ -23,6 +23,12 @@ class SimpleLogger() : Script() {
         logUniqueNearbyNodes()
     }
 
+	fun logInventory() {
+		for (item in bot.inventory.toArray()) {
+			SystemLogger.log("Item: ${item.name} (ID: ${item.id})")
+		}
+	}
+
     // Function to log all nearby items and objects with unique IDs
     fun logUniqueNearbyNodes() {
         val nearbyItems = scriptAPI.getNearbyEntities(bot)
