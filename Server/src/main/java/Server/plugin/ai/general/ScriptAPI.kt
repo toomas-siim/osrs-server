@@ -70,9 +70,7 @@ class ScriptAPI(private val bot: Player) {
     	for (node in entities) {
     		if (node != null) {
     			// Check if the entity is reachable
-    			if (Pathfinder.find(bot, node).isMoveNear) {
-    				nearbyEntities.add(node)
-    			}
+				nearbyEntities.add(node)
     		}
     	}
 
