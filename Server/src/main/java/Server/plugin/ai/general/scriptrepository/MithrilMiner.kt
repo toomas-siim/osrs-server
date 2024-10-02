@@ -84,7 +84,71 @@ class MithrilMiner() : Script() {
                                     bot.inventory.getAmount(Items.MITHRIL_ORE_448) + mithrilAmount)
             }
 
-            // Other states remain the same
+            State.TO_BANK -> {
+				if(bank.insideBorder(bot)){
+					val bank = scriptAPI.getNearestNode("bank booth",true)
+					if(bank != null) {
+						bot.pulseManager.run(object : BankingPulse(this, bank){
+							override fun pulse(): Boolean {
+								state = State.BANKING
+								return super.pulse()
+							}
+						})
+					}
+
+				} else {
+					if(!ladderSwitch) {
+						val ladder = scriptAPI.getNearestNode(30941, true)
+						ladder ?: scriptAPI.walkTo(bottomLadder.randomLoc).also { return }
+						ladder?.interaction?.handle(bot, ladder.interaction[0]).also { ladderSwitch = true }
+					} else {
+						if (!bank.insideBorder(bot)) scriptAPI.walkTo(bank.randomLoc).also { return }
+					}
+				}
+			}
+
+			State.BANKING -> {
+				coalAmount += bot.inventory.getAmount(Items.COAL_453)
+				scriptAPI.bankItem(Items.COAL_453)
+				state = State.TO_MINE
+			}
+
+			State.TO_MINE -> {
+				if(ladderSwitch){
+					if(!topLadder.insideBorder(bot.location)){
+						scriptAPI.walkTo(topLadder.randomLoc)
+					} else {
+						val ladder = scriptAPI.getNearestNode("Ladder",true)
+						if(ladder != null){
+							ladder.interaction.handle(bot,ladder.interaction[0])
+							ladderSwitch = false
+						} else {
+							scriptAPI.walkTo(topLadder.randomLoc)
+						}
+					}
+				} else {
+					if(!mine.insideBorder(bot)){
+						scriptAPI.walkTo(mine.randomLoc)
+					} else {
+						state = State.MINING
+					}
+				}
+			}
+
+			State.TO_GE -> {
+				scriptAPI.teleportToGE()
+				state = State.SELLING
+			}
+
+			State.SELLING -> {
+				scriptAPI.sellOnGE(Items.COAL_453)
+				state = State.GO_BACK
+			}
+
+			State.GO_BACK -> {
+				scriptAPI.teleport(bank.randomLoc)
+				state = State.TO_MINE
+			}
         }
     }
     open class BankingPulse(val script: Script, val bank: Node) : MovementPulse(script.bot,bank, DestinationFlag.OBJECT){
