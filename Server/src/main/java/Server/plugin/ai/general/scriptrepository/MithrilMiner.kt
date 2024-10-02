@@ -129,6 +129,10 @@ class MithrilMiner() : Script() {
 			}
 
 			State.TO_MINE -> {
+				if (bot.inventory.freeSlots() == 0) {
+					state = State.TO_BANK
+					return
+				}
 				if(ladderSwitch){
 					if(!topLadder.insideBorder(bot.location)){
 						scriptAPI.walkTo(topLadder.randomLoc)
