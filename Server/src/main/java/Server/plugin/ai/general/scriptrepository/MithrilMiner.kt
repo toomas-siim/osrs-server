@@ -49,7 +49,14 @@ class MithrilMiner() : Script() {
                 overlay!!.setTaskLabel("Mithril Mined:")
                 overlay!!.setAmount(0)
 
-                if (mine.insideBorder(bot)){
+                // If inventory is full and the bot is near the bank, go to bank state
+                if (bot.inventory.freeSlots() == 0) {
+					SystemLogger.log("Inventory full and near bank, switching to TO_BANK state")
+					state = State.TO_BANK
+					return
+                }
+
+                if (mine.insideBorder(bot)) {
                     SystemLogger.log("Inside mining zone, switching to MINING state")
                     ladderSwitch = false
                     state = State.MINING
@@ -58,6 +65,7 @@ class MithrilMiner() : Script() {
                     state = State.TO_MINE
                 }
             }
+
 
             State.MINING -> {
                 SystemLogger.log("Current state: MINING")
