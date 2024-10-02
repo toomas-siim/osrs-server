@@ -8,24 +8,27 @@ import plugin.ai.skillingbot.SkillingBotAssembler
 
 @PlayerCompatible
 @ScriptName("Simple Logger")
-@ScriptDescription("Logs all items and objects around the player.")
+@ScriptDescription("Logs all unique item and object IDs around the player.")
 @ScriptIdentifier("simple_logger")
 class SimpleLogger() : Script() {
 
-    override fun tick() {
-        SystemLogger.log("Tick invoked: Logging nearby entities.")
+    private val loggedIds = mutableSetOf<Int>() // Set to store unique IDs
 
-        logNearbyNodes()
+    override fun tick() {
+        SystemLogger.log("Tick invoked: Logging unique nearby entities.")
+
+        logUniqueNearbyNodes()
     }
 
-    // Function to log all nearby items
-    fun logNearbyNodes() {
+    // Function to log all nearby items and objects with unique IDs
+    fun logUniqueNearbyNodes() {
         val nearbyItems = scriptAPI.getNearbyEntities(bot)
         if (nearbyItems.isNotEmpty()) {
-            SystemLogger.log("Nearby node:")
             for (item in nearbyItems) {
-                SystemLogger.log("Node: ${item.name} (ID: ${item.id}) at ${item.location}")
-                SystemLogger.log("${item}")
+                if (item.id !in loggedIds) {
+                    loggedIds.add(item.id) // Add ID to the set if not already present
+                    SystemLogger.log("Unique Node: ${item.name} (ID: ${item.id}) at ${item.location}")
+                }
             }
         } else {
             SystemLogger.log("No nearby items found.")
