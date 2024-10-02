@@ -23,13 +23,16 @@ class MithrilMiner() : Script() {
     val topLadder = ZoneBorders(3016,3336,3022,3342)
     val mine = ZoneBorders(3027,9733,3054,9743)
     val bank = ZoneBorders(3009,3355,3018,3358)
-    val mithrilOreIds = [
+
+    // Corrected array initialization
+    val mithrilOreIds = arrayOf(
         2103, 2102, 4988, 4989, 4990, 11943, 11942, 11945, 11944, 11947,
         11946, 14855, 14854, 14853, 16687, 20421, 20420, 20419, 20418, 19012,
         19013, 19014, 21278, 21279, 21280, 25369, 25368, 25370, 29236, 29237,
         29238, 32439, 32438, 32440, 31087, 31086, 31088, 31170, 31171, 31172,
         37692, 37693, 37694, 42036
-    ]
+    )
+
     var overlay: ScriptAPI.BottingOverlay? = null
     var mithrilAmount = 0
 
@@ -67,9 +70,15 @@ class MithrilMiner() : Script() {
                     scriptAPI.walkTo(mine.randomLoc)
                 } else {
                     SystemLogger.log("Mining Mithril...")
-                    logNearbyItems()
-                    val rock = scriptAPI.getNearestNode("rocks",true)
-                    rock?.interaction?.handle(bot,rock.interaction[0])
+
+                    // Find nearest Mithril ore rock based on the defined IDs
+                    val rock = scriptAPI.getNearestNode("rocks", true)
+                    if (rock != null && mithrilOreIds.contains(rock.id)) {
+                        SystemLogger.log("Found Mithril ore rock: ID ${rock.id}")
+                        rock.interaction?.handle(bot, rock.interaction[0])
+                    } else {
+                        SystemLogger.log("No Mithril ore rock nearby.")
+                    }
                 }
                 overlay!!.setAmount(bot.inventory.getAmount(Items.MITHRIL_ORE_447) +
                                     bot.inventory.getAmount(Items.MITHRIL_ORE_448) + mithrilAmount)
@@ -78,20 +87,6 @@ class MithrilMiner() : Script() {
             // Other states remain the same
         }
     }
-
-    // New function to log all nearby items
-    fun logNearbyItems() {
-        val nearbyItems = scriptAPI.getNearbyEntities(bot)
-        if (nearbyItems != null && nearbyItems.isNotEmpty()) {
-            SystemLogger.log("Nearby items:")
-            for (item in nearbyItems) {
-                SystemLogger.log("Item: ${item.name} (ID: ${item.id}) at ${item.location}")
-            }
-        } else {
-            SystemLogger.log("No nearby items found.")
-        }
-    }
-
     open class BankingPulse(val script: Script, val bank: Node) : MovementPulse(script.bot,bank, DestinationFlag.OBJECT){
         override fun pulse(): Boolean {
             script.bot.faceLocation(bank.location)
