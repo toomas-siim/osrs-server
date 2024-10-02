@@ -108,8 +108,10 @@ class MithrilMiner() : Script() {
 			}
 
 			State.BANKING -> {
-				coalAmount += bot.inventory.getAmount(Items.COAL_453)
-				scriptAPI.bankItem(Items.COAL_453)
+				mithrilAmount += bot.inventory.getAmount(Items.MITHRIL_ORE_447)
+				mithrilAmount += bot.inventory.getAmount(Items.MITHRIL_ORE_448)
+				scriptAPI.bankItem(Items.MITHRIL_ORE_447)
+				scriptAPI.bankItem(Items.MITHRIL_ORE_448)
 				state = State.TO_MINE
 			}
 
@@ -141,7 +143,8 @@ class MithrilMiner() : Script() {
 			}
 
 			State.SELLING -> {
-				scriptAPI.sellOnGE(Items.COAL_453)
+				scriptAPI.sellOnGE(Items.MITHRIL_ORE_447)
+				scriptAPI.sellOnGE(Items.MITHRIL_ORE_448)
 				state = State.GO_BACK
 			}
 
