@@ -83,7 +83,7 @@ class CathShark : Script() {
                 } else {
                     SystemLogger.log("Possible interactions with fishing spot:")
                     for (i in spot.interaction.getOptions()) {
-                    	SystemLogger.log("Interaction ${i.getName()}")
+                    	SystemLogger.log("Interaction ${i}")
                     }
                     spot.interaction.handle(bot, spot.interaction[0])
                     SystemLogger.log("Interacting with fishing spot using interaction 0.")
