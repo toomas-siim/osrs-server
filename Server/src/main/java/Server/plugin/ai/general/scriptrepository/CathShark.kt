@@ -70,7 +70,9 @@ class CathShark : Script() {
                 SystemLogger.log("Banking raw sharks. Total banked: {$fishCounter}")
                 scriptAPI.bankItem(Items.RAW_SHARK_383)
                 scriptAPI.bankItem(Items.RAW_SHARK_384)
-                state = State.IDLE
+                if (player.inventory.freeSlots() > 0) {
+	                state = State.IDLE
+				}
                 SystemLogger.log("State changed to IDLE")
             }
 
