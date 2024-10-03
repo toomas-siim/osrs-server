@@ -20,7 +20,6 @@ class AttackLootBot : Script() {
     var lootBones = true
     var lootItems = true
     var idleTimer = 3
-    var entityToKill = "" // User input for entity name to kill
 
     override fun tick() {
         when (state) {
@@ -32,21 +31,6 @@ class AttackLootBot : Script() {
                 overlay!!.setAmount(0)
                 state = State.CONFIG
 
-                // Predefined options for user to choose target entity
-                bot.dialogueInterpreter.sendOptions("Which entity should I attack?", "Goblin", "Zombie", "Cow")
-                bot.dialogueInterpreter.addAction { player, button ->
-                    entityToKill = when (button) {
-                        1 -> "goblin"
-                        2 -> "zombie"
-                        3 -> "cow"
-                        else -> ""
-                    }
-                    state = State.CONFIG_LOOTING_OPTIONS
-                }
-                startLocation = bot.location
-            }
-
-            State.CONFIG_LOOTING_OPTIONS -> {
                 bot.dialogueInterpreter.sendOptions("Loot bones and other items?", "Yes", "No")
                 bot.dialogueInterpreter.addAction { player, button ->
                     if (button == 1) {
@@ -58,6 +42,7 @@ class AttackLootBot : Script() {
                     }
                     state = State.ATTACKING
                 }
+                startLocation = bot.location
             }
 
             State.ATTACKING -> {
@@ -66,16 +51,13 @@ class AttackLootBot : Script() {
                     // No nearby entities, walk back to the start location
                     scriptAPI.randomWalkTo(startLocation, 3)
                 } else {
-                    // Attack nearby entities that match the user's input
+                    // Attack any nearby entity
                     for (entity in nearbyEntities) {
-                        val entityName = entity.name.toLowerCase() // Convert entity name to lowercase
-                        if (entityName.contains(entityToKill)) { // Check if entity name contains the user's input
-                            // 1/10 chance of attacking
-                            val randomChance = Random().nextInt(10) // Generates a number between 0 and 9
-                            if (randomChance == 0) { // 1/10 chance (when randomChance == 0)
-                                scriptAPI.attackNpc(bot, entity.id) // Attack entity
-                                break // Optionally stop after attacking the first matching entity
-                            }
+                        // 1/10 chance of attacking
+                        val randomChance = Random().nextInt(10) // Generates a number between 0 and 9
+                        if (randomChance == 0) { // 1/10 chance (when randomChance == 0)
+                            scriptAPI.attackNpc(bot, entity.id) // Attack entity
+                            break // Optionally stop after attacking the first entity
                         }
                     }
                     // If looting is enabled, transition to IDLE state
@@ -137,7 +119,6 @@ class AttackLootBot : Script() {
     enum class State {
         INIT,
         CONFIG,
-        CONFIG_LOOTING_OPTIONS,
         ATTACKING,
         IDLE,
         LOOTING,
