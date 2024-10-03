@@ -63,7 +63,9 @@ class CathShark : Script() {
 
             State.BANKING -> {
                 fishCounter += bot.inventory.getAmount(Items.RAW_SHARK_383)
+                fishCounter += bot.inventory.getAmount(Items.RAW_SHARK_384)
                 scriptAPI.bankItem(Items.RAW_SHARK_383)
+                scriptAPI.bankItem(Items.RAW_SHARK_384)
                 state = State.IDLE
             }
 
@@ -79,6 +81,7 @@ class CathShark : Script() {
                     state = State.FIND_BANK
                 }
                 overlay!!.setAmount(fishCounter + bot.inventory.getAmount(Items.RAW_SHARK_383))
+                overlay!!.setAmount(fishCounter + bot.inventory.getAmount(Items.RAW_SHARK_384))
             }
 
             State.IDLE -> {
