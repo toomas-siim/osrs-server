@@ -81,8 +81,12 @@ class CathShark : Script() {
                     state = State.IDLE
                     SystemLogger.log("No fishing spot found. State changed to IDLE")
                 } else {
-                    spot!!.interaction.handle(bot, spot.interaction[1])
-                    SystemLogger.log("Interacting with fishing spot.")
+                    SystemLogger.log("Possible interactions with fishing spot:")
+                    spot!!.interaction.forEachIndexed { index, interaction ->
+                        SystemLogger.log("Interaction $index: $interaction")
+                    }
+                    spot.interaction.handle(bot, spot.interaction[0])
+                    SystemLogger.log("Interacting with fishing spot using interaction 0.")
                 }
                 if(bot.inventory.isFull){
                     state = State.FIND_BANK
