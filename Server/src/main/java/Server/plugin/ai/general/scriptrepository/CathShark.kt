@@ -82,7 +82,7 @@ class CathShark : Script() {
                     SystemLogger.log("No fishing spot found. State changed to IDLE")
                 } else {
                     SystemLogger.log("Possible interactions with fishing spot:")
-                    for (i in spot!!.interaction.indices) {
+                    for (i in spot!!.interaction) {
                         SystemLogger.log("Interaction $i: ${spot.interaction[i]}")
                     }
                     spot.interaction.handle(bot, spot.interaction[0])
