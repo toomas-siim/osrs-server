@@ -65,9 +65,9 @@ class CathShark : Script() {
             }
 
             State.BANKING -> {
-                SystemLogger.log("Banking raw sharks.")
                 fishCounter += bot.inventory.getAmount(Items.RAW_SHARK_383)
                 fishCounter += bot.inventory.getAmount(Items.RAW_SHARK_384)
+                SystemLogger.log("Banking raw sharks. Total banked: {$fishCounter}")
                 scriptAPI.bankItem(Items.RAW_SHARK_383)
                 scriptAPI.bankItem(Items.RAW_SHARK_384)
                 state = State.IDLE
