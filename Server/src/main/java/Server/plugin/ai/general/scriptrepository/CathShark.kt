@@ -91,7 +91,7 @@ class CathShark : Script() {
             }
 
             State.FIND_SPOT -> {
-                val spot = scriptAPI.getNearestNode(334, false) // Shark fishing spot ID
+                val spot = scriptAPI.getNearestNode(333, false) // Shark fishing spot ID
                 if (spot != null) {
                     bot.walkingQueue.reset()
                     state = State.FISHING
