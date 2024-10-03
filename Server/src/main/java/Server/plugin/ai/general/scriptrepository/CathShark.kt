@@ -73,7 +73,7 @@ class CathShark : Script() {
                 if(spot == null){
                     state = State.IDLE
                 } else {
-                    spot!!.interaction.handle(bot, spot.interaction[0])
+                    spot!!.interaction.handle(bot, spot.interaction[1])
                 }
                 if(bot.inventory.isFull){
                     state = State.FIND_BANK
