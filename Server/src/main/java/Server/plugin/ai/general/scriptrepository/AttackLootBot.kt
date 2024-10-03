@@ -20,6 +20,7 @@ class AttackLootBot : Script() {
     var lootBones = true
     var lootItems = true
     var idleTimer = 3
+    var attackRadius = 10 // Default attack radius
 
     override fun tick() {
         when (state) {
@@ -46,27 +47,18 @@ class AttackLootBot : Script() {
             }
 
             State.ATTACKING -> {
-                val nearbyEntities = scriptAPI.getNearbyEntities(bot) // Fetch nearby entities from scriptAPI
-                if (nearbyEntities.isEmpty()) {
-                    // No nearby entities, walk back to the start location
+                val attacked = scriptAPI.attackNpcsInRadius(bot, attackRadius) // Use the attack method with a defined radius
+                if (!attacked) {
+                    // No NPCs were attacked, walk back to the start location
                     scriptAPI.randomWalkTo(startLocation, 3)
                 } else {
-                    // Attack any nearby entity
-                    for (entity in nearbyEntities) {
-                        // 1/10 chance of attacking
-                        val randomChance = Random().nextInt(10) // Generates a number between 0 and 9
-                        if (randomChance == 0) { // 1/10 chance (when randomChance == 0)
-                            scriptAPI.attackNpc(bot, entity.id) // Attack entity
-                            break // Optionally stop after attacking the first entity
-                        }
-                    }
                     // If looting is enabled, transition to IDLE state
                     if (lootBones || lootItems) {
                         state = State.IDLE
                         idleTimer = 4
                         SystemLogger.log("Going to idle state after attacking")
                     }
-                    killCounter += nearbyEntities.size // Increment kill counter by number of attacked entities
+                    killCounter++ // Increment kill counter after attacking
                     overlay!!.setAmount(killCounter) // Update overlay with new kill count
                 }
             }
