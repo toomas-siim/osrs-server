@@ -183,7 +183,7 @@ class CathShark : Script() {
 
     override fun newInstance(): Script {
         if (!sharkstopper && bots <= 0) {
-            val script = SharkCatcher()
+            val script = CathShark()
             script.bot = AIPlayer(bot.startLocation)
             script.state = State.FIND_SPOT
             bots = 1
