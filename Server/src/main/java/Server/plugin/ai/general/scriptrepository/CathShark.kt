@@ -76,7 +76,7 @@ class CathShark : Script() {
 
             State.FISHING -> {
                 SystemLogger.log("Fishing started.")
-                val spot = scriptAPI.getNearestNode(326, false) // Use shark fishing spot ID
+                val spot = scriptAPI.getNearestNode(313, false) // Use shark fishing spot ID
                 if(spot == null){
                     state = State.IDLE
                     SystemLogger.log("No fishing spot found. State changed to IDLE")
@@ -106,7 +106,7 @@ class CathShark : Script() {
 
             State.FIND_SPOT -> {
                 SystemLogger.log("Searching for a fishing spot.")
-                val spot = scriptAPI.getNearestNode(326, false) // Shark fishing spot ID
+                val spot = scriptAPI.getNearestNode(313, false) // Shark fishing spot ID
                 if (spot != null) {
                     bot.walkingQueue.reset()
                     state = State.FISHING
