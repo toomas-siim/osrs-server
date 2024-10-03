@@ -1,11 +1,8 @@
 package plugin.ai.general.scriptrepository
 
-import java.util.Random
+import core.game.node.item.Item
 import core.game.system.SystemLogger
-import core.game.world.map.Location
-import core.tools.Items
 import core.game.world.update.flag.context.Animation
-import core.game.world.update.flag.context.Graphics
 import plugin.ai.general.ScriptAPI
 
 @PlayerCompatible
@@ -32,7 +29,6 @@ class AttackLootBot : Script() {
                 overlay!!.setAmount(0)
                 state = State.CONFIG
 
-                // Predefined options for user to choose target entity
                 bot.dialogueInterpreter.sendOptions("Which entity should I attack?", "Goblin", "Zombie", "Cow")
                 bot.dialogueInterpreter.addAction { player, button ->
                     entityToKill = when (button) {
@@ -61,31 +57,27 @@ class AttackLootBot : Script() {
             }
 
             State.ATTACKING -> {
-                val nearbyEntities = scriptAPI.getNearbyEntities(bot) // Fetch nearby entities from scriptAPI
+                val nearbyEntities = scriptAPI.getNearbyEntities(bot)
                 if (nearbyEntities.isEmpty()) {
-                    // No nearby entities, walk back to the start location
                     scriptAPI.randomWalkTo(startLocation, 3)
                 } else {
-                    // Attack nearby entities that match the user's input
                     for (entity in nearbyEntities) {
-                        val entityName = entity.name.toLowerCase() // Convert entity name to lowercase
-                        if (entityName.contains(entityToKill)) { // Check if entity name contains the user's input
-                            // 1/10 chance of attacking
-                            val randomChance = Random().nextInt(10) // Generates a number between 0 and 9
-                            if (randomChance == 0) { // 1/10 chance (when randomChance == 0)
-                                scriptAPI.attackNpc(bot, entity.id) // Attack entity
-                                break // Optionally stop after attacking the first matching entity
+                        val entityName = entity.name.toLowerCase()
+                        if (entityName.contains(entityToKill)) {
+                            val randomChance = Random().nextInt(10)
+                            if (randomChance == 0) {
+                                scriptAPI.attackNpc(bot, entity.id)
+                                break
                             }
                         }
                     }
-                    // If looting is enabled, transition to IDLE state
                     if (lootBones || lootItems) {
                         state = State.IDLE
                         idleTimer = 4
                         SystemLogger.log("Going to idle state after attacking")
                     }
-                    killCounter += nearbyEntities.size // Increment kill counter by number of attacked entities
-                    overlay!!.setAmount(killCounter) // Update overlay with new kill count
+                    killCounter += nearbyEntities.size
+                    overlay!!.setAmount(killCounter)
                 }
             }
 
@@ -116,8 +108,8 @@ class AttackLootBot : Script() {
                     item?.let {
                         when (it.id) {
                             Items.BONES_526, Items.BIG_BONES_532, Items.BABYDRAGON_BONES_534, Items.DRAGON_BONES_536 -> {
-                                bot.inventory.remove(item)
-                                bot.visualize(Animation(827), Graphics(0)) // Bury animation with no graphics effect
+                                // Bury using BoneBuryingOptionPlugin's logic
+                                buryBones(it)
                             }
                             else -> {
                                 // Handle other items or do nothing
@@ -128,6 +120,29 @@ class AttackLootBot : Script() {
                 state = State.ATTACKING
             }
         }
+    }
+
+    private fun buryBones(item: Item) {
+        // Use the logic from BoneBuryingOptionPlugin
+        val bone = Bones.forId(item.id) ?: Bones.BONES
+        val player = bot // Assume bot as player reference
+        if (player.getAttribute("delay:bury", -1) > GameWorld.getTicks()) {
+            return
+        }
+        player.setAttribute("delay:bury", GameWorld.getTicks() + 2)
+        player.lock(2)
+        player.animate(Animation(827))
+        player.getPacketDispatch().sendMessage("You dig a hole in the ground...")
+        player.getAudioManager().send(Audio(2738, 10, 1))
+
+        GameWorld.getPulser().submit(object : Pulse(2, player) {
+            override fun pulse(): Boolean {
+                player.getPacketDispatch().sendMessage("You bury the bones.")
+                player.getSkills().addExperience(Skills.PRAYER, bone.getExperience(), true)
+                player.getInventory().remove(item) // Remove item after burying
+                return true
+            }
+        })
     }
 
     override fun newInstance(): Script {

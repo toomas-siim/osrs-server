@@ -72,8 +72,8 @@ class CathShark : Script() {
                 scriptAPI.bankItem(Items.RAW_SHARK_384)
                 if (bot.inventory.freeSlots() > 0) {
 	                state = State.IDLE
+                	SystemLogger.log("State changed to IDLE")
 				}
-                SystemLogger.log("State changed to IDLE")
             }
 
             State.FISHING -> {
