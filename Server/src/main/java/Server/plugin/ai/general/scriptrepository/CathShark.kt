@@ -69,7 +69,7 @@ class CathShark : Script() {
 
 
             State.FISHING -> {
-                val spot = scriptAPI.getNearestNode(334, false) // Use shark fishing spot ID
+                val spot = scriptAPI.getNearestNode(333, false) // Use shark fishing spot ID
                 if(spot == null){
                     state = State.IDLE
                 } else {
