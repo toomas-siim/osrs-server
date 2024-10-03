@@ -81,7 +81,7 @@ class CathShark : Script() {
                     state = State.IDLE
                     SystemLogger.log("No fishing spot found. State changed to IDLE")
                 } else {
-                    spot!!.interaction.handle(bot, spot.interaction[1])
+                    spot!!.interaction.handle(bot, spot.interaction[0])
                     SystemLogger.log("Interacting with fishing spot.")
                 }
                 if(bot.inventory.isFull){
