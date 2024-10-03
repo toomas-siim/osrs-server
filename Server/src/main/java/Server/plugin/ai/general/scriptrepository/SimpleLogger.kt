@@ -26,7 +26,9 @@ class SimpleLogger() : Script() {
 
 	fun logInventory() {
 		for (item in bot.inventory.toArray()) {
-			SystemLogger.log("Item: ${item.name} (ID: ${item.id})")
+			if (item != null) {
+				SystemLogger.log("Item: ${item.name} (ID: ${item.id})")
+			}
 		}
 	}
 
